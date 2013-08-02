@@ -4,3 +4,7 @@
 *.jar
 *.war
 *.ear
+
+mykitchen/target
+mykitchen.core/target
+mykitchen.rest/target
