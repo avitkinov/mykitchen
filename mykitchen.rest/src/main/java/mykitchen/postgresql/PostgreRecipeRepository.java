@@ -16,7 +16,6 @@ public class PostgreRecipeRepository extends PostgreBaseRepository<Recipe> imple
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<String> getAllImages() {
 		List<String> result;
 		
