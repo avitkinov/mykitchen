@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>#{bundle.LoginTitle}</title>
+	<link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</h:head>
+<h:body>
+	<h:form>
+		<div align="center">
+			<p:panel styleClass="login_panel">
+				<f:facet name="header">
+					<h:outputText value="#{bundle.Login}" />
+				</f:facet>
+				<h:graphicImage value="resources/images/logo.gif" />
+				<br />
+				<div>
+					<p:messages layout="list" />
+				</div>
+
+				<h:panelGrid columns="2">
+					<h:outputLabel value="#{bundle.Username}:" for="username" />
+					<h:inputText
+						id="username" 
+						label="#{bundle.Username}" 
+						value="#{loginManagedBean.username}" 
+						styleClass="inputbox"
+						required="true" />
+
+					<h:outputLabel value="#{bundle.Password}:" for="password" />
+					<h:inputSecret 
+						id="password" 
+						value="#{loginManagedBean.password}"
+						styleClass="inputbox" />
+
+					<a href="password_renew.xhtml">#{bundle.ForgottenPassword}</a>
+					<p:commandButton status="loadingStatus"
+						value="#{bundle.Login}"
+						action="#{loginManagedBean.login}" 
+						styleClass="button" />
+					
+				</h:panelGrid>
+			</p:panel>
+		</div>
+	</h:form>
+		<!--  <ui:include src="/WEB-INF/templates/loading_status.xhtml" /> -->
+</h:body>
+</html>

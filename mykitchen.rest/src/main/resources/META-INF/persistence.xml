@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="jdbc/mykitchen"
+		transaction-type="JTA">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>CustomerService</jta-data-source>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties>
+			<property name="javax.persistence.target-database" value="PostgreSQL" />
+			<property name="eclipselink.logging.level" value="FINEST" />
+			<property name="eclipselink.logging.level.ejb_or_metadata"
+				value="WARNING" />
+			<property name="eclipselink.logging.timestamp" value="false" />
+			<property name="eclipselink.logging.thread" value="false" />
+			<property name="eclipselink.logging.session" value="false" />
+			<property name="eclipselink.logging.exceptions" value="false" />
+
+			
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_ddlGeneration.jdbc" />
+			<property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_ddlGeneration.jdbc" />
+			<property name="eclipselink.ddl-generation.output-mode" value="both" />
+			<property name="eclipselink.target-database" value="PostgreSQL"/>
+		</properties>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,104 @@
+/* Website template by freewebsitetemplates.com */
+body {
+	background: url(../images/bg-body.jpg) repeat;
+	color: #6c5b37;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin: 0;
+	min-width: 960px;
+	padding: 0;
+}
+
+a {
+	outline: none;
+}
+
+img {
+	border: 0;
+}
+
+p {
+	margin: 0;
+	line-height: 24px;
+}
+
+p a {
+	color: #6c5b37;
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+h1,h2,h3,h5 {
+	margin: 0;
+}
+
+div.header {
+	background: url(../images/stripe1.gif) repeat-x left top;
+	height: 145px;
+	margin: 0 auto;
+	overflow: hidden;
+	width: 960px;
+}
+
+div.header div {
+	float: left;
+	margin: 39px 0 0;
+}
+
+div.header div a,div.body div div:first-child a,div.body div:first-child div.footer ul li a,div.body div:first-child div.body div a
+	{
+	display: inline-block;
+}
+
+div.header form {
+	background: url(../images/interface.png) no-repeat 0 -160px;
+	float: right;
+	height: 32px;
+	margin: 72px 20px 0 0;
+	overflow: hidden;
+	width: 434px;
+}
+
+div.header form input#search {
+	background: none;
+	border: 0;
+	color: #707476;
+	float: left;
+	font-size: 14px;
+	height: 25px;
+	line-height: 25px;
+	margin: 3px 0 0 10px;
+	padding: 0;
+	width: 400px;
+}
+
+div.header form input#searchbtn {
+	background: url(../images/interface.png) no-repeat 0 -306px;
+	border: 0;
+	float: left;
+	height: 17px;
+	margin: 7px 0 0;
+	width: 16px;
+}
+
+div.body {
+	width: 960px;
+	margin: 0px auto;
+}
+
+div.body div.header ul li a {
+	color: #fffcdf;
+	display: block;
+	height: 29px;
+	font-size: 12px;
+	letter-spacing: 0.075em;
+	line-height: 29px;
+	padding: 0 10px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px #81725c;
+}

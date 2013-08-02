@@ -1,0 +1,15 @@
+mykitchen\web\managedbeans\RecipeManagedBean.class
+mykitchen\business\RestufulRecipeBean$1.class
+mykitchen\business\RestufulRecipeBean$2.class
+mykitchen\business\ISessionBean.class
+mykitchen\business\RecipeBean.class
+mykitchen\web\managedbeans\PasswordRenewManagedBean.class
+mykitchen\web\managedbeans\LoginManagedBean.class
+mykitchen\util\ArgumentHelper.class
+mykitchen\web\managedbeans\UserSessionHelper.class
+mykitchen\web\listeners\SessionListener.class
+mykitchen\business\RestufulRecipeBean.class
+mykitchen\web\filters\LoginFilter.class
+mykitchen\util\NavigationPage.class
+mykitchen\business\SessionBean.class
+mykitchen\web\managedbeans\GalleriaManagedBean.class
