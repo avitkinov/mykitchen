@@ -1,37 +1,27 @@
 package mykitchen.business;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
+import javax.ejb.Local;
 
 import mykitchen.model.User;
 
 /**
- * Session service for login and logout.
+ * 
+ * Interface represents session operations.
  * 
  * @author Asparuh Vitkinov
  */
-@Stateless
-public class SessionBean implements ISessionBean {
+@Local
+public interface ISessionBean {
 
 	/**
-	 * Initialize session bean.
-	 */
-	@PostConstruct
-	public void initSessionBean() {
-
-		/* Initialize service */
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * Login with provided username and password.
 	 * 
-	 * @see de.sepp.bidding.business.ISessionService#login(java.lang.String,
-	 * java.lang.String)
+	 * @param userName
+	 *            Username for login
+	 * @param password
+	 *            Password for login
+	 * 
+	 * @return User if exist, otherwise <code>null</code>
 	 */
-	@Override
-	public User login(String userName, String password) {
-		User user = null;
-
-		return user;
-	}
+	User login(String userName, String password);
 }
