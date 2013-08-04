@@ -3,8 +3,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:p="http://primefaces.org/ui">
 
+				<p:panel rendered="loginManagedBean.logedUser ne null" header="Welcome" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+					<p:commandLink actionListener="#{loginManagedBean.logout}"/>
+				</p:panel>
 				<div>
 					<h3>Cooking Video</h3>
 					<a href="videos.html"><h:graphicImage value="/resources/images/cooking-video.png" /></a> 

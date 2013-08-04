@@ -102,3 +102,7 @@ div.body div.header ul li a {
 	text-decoration: none;
 	text-shadow: 1px 1px 1px #81725c;
 }
+
+div.body.content {
+	width: 716px;
+}

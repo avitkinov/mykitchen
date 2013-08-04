@@ -38,7 +38,7 @@ public class Recipe implements Serializable {
 	private String serving;
 
 	public Recipe() {
-		this(new Long(0), "", new RecipeInfo(), "", null, "", "");
+		this(new Long(0), null, new RecipeInfo(), null, null, null, null);
 	}
 
 	public Recipe(Long id, String title, RecipeInfo recipeinfo,

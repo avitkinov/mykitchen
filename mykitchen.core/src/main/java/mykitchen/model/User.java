@@ -117,7 +117,7 @@ public class User implements Serializable {
 	
 	@Override
 	public String toString() {
-		return String.format("{User: %d %s %s %s %s %s}", id, firstName, lastName, username, password);
+		return String.format("{User: %d %s %s %s %s}", id, firstName, lastName, username, password);
 	}
 
 }

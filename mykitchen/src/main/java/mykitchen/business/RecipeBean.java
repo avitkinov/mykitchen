@@ -10,7 +10,7 @@ public interface RecipeBean {
 	
 	Recipe getRecipe(Long id);
 	
-	void addRecipe(Recipe recipe);
+	void putRecipe(Recipe recipe);
 
 	List<String> getAllRecipeImages();
 }

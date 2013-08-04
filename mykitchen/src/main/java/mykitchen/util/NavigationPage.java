@@ -6,9 +6,7 @@ package mykitchen.util;
  * @author Asparuh Vitkinov
  */
 public enum NavigationPage {
-	LOGIN("login"), INDEX("index"), PASWORD_RENEW("password_renew"), TENDER_OVERVIEW(
-			"tender_overview"), TENDER_DETAILS("tender_details"), OFFERS(
-			"offers");
+	LOGIN("login"), INDEX("index"), ADMIN("admin");
 
 	private String page;
 

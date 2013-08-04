@@ -4,15 +4,15 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
 	<application>
-        <resource-bundle>
-            <base-name>messages</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <locale-config>
-            <default-locale>en</default-locale>
-            <!-- <supported-locale></supported-locale>-->
-        </locale-config>
-    </application>
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>bundle</var>
+		</resource-bundle>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<!-- <supported-locale></supported-locale> -->
+		</locale-config>
+	</application>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
@@ -46,6 +46,24 @@
 		<navigation-case>
 			<from-outcome>recipes</from-outcome>
 			<to-view-id>/recipes.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>admin</from-outcome>
+			<to-view-id>/application/admin.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>mykitchen</from-outcome>
+			<to-view-id>/application/mykitchen.jsf</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

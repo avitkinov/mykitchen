@@ -1,7 +1,6 @@
 package mykitchen.web.managedbeans;
 
 import java.io.Serializable;
-import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,12 +8,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import mykitchen.business.ISessionBean;
+import mykitchen.business.SessionBean;
 import mykitchen.model.User;
 import mykitchen.util.NavigationPage;
 
 import org.apache.log4j.Logger;
-
 
 /**
  * Controls the login process and stores the logged in user.
@@ -23,110 +21,108 @@ import org.apache.log4j.Logger;
  */
 @ManagedBean
 @SessionScoped
-public class LoginManagedBean implements Serializable
-{
-  /** Serial Version ID. */
-  private static final long serialVersionUID = 6704436797880373164L;
+public class LoginManagedBean implements Serializable {
+	/** Serial Version ID. */
+	private static final long serialVersionUID = 6704436797880373164L;
 
-  /** Logger. */
-  private static final Logger cLogger = Logger.getLogger(LoginManagedBean.class);
+	/** Logger. */
+	private static final Logger cLogger = Logger
+			.getLogger(LoginManagedBean.class);
 
-  /** Variable for username field. */
-  private String iUsername;
+	/** Variable for username field. */
+	private String iUsername;
 
-  /** Variable for password field. */
-  private String iPassword;
+	/** Variable for password field. */
+	private String iPassword;
 
-  /** Container for internationalization messages. */
-  private ResourceBundle iMessageBundle;
+	/** Session service. */
+	@EJB
+	private SessionBean sessionService;
 
-  /** Session service. */
-  @EJB
-  private ISessionBean iSessionService;
-  
-  /** Initialize container with messages. */
-  @PostConstruct
-  public void postContruct()
-  {
-    cLogger.info("LoginManagedBean is initialized");
-    iMessageBundle = ResourceBundle.getBundle("messages");
-  }
+	private User logedUser;
 
-  /**
-   * Get username.
-   * 
-   * @return the Username
-   */
-  public String getUsername()
-  {
-    return iUsername;
-  }
+	/** Initialize container with messages. */
+	@PostConstruct
+	public void postContruct() {
+		cLogger.info("LoginManagedBean is initialized");
+	}
 
-  /**
-   * Set username.
-   * 
-   * @param aUsername the Username to set
-   */
-  public void setUsername(final String aUsername)
-  {
-    this.iUsername = aUsername;
-  }
+	/**
+	 * Get username.
+	 * 
+	 * @return the Username
+	 */
+	public String getUsername() {
+		return iUsername;
+	}
 
-  /**
-   * Get password.
-   * 
-   * @return the Password
-   */
-  public String getPassword()
-  {
-    return iPassword;
-  }
+	/**
+	 * Set username.
+	 * 
+	 * @param aUsername
+	 *            the Username to set
+	 */
+	public void setUsername(final String aUsername) {
+		this.iUsername = aUsername;
+	}
 
-  /**
-   * Set password.
-   * 
-   * @param aPassword the iPassword to set
-   */
-  public void setPassword(final String aPassword)
-  {
-    this.iPassword = aPassword;
-  }
+	/**
+	 * Get password.
+	 * 
+	 * @return the Password
+	 */
+	public String getPassword() {
+		return iPassword;
+	}
 
-  /**
-   * The user logs into the system. He has access to all functionality after log in.
-   * 
-   * @return {@link ApplicationPage#INDEX#value()} if the user has entered valid username and
-   * password or empty string otherwise
-   */
-  public String login()
-  {
-    String tRedirectPage = null;
-    User user = iSessionService.login(iUsername, iPassword);
-    if (user != null)
-    {
-      UserSessionHelper.setUser(user);
+	/**
+	 * Set password.
+	 * 
+	 * @param aPassword
+	 *            the iPassword to set
+	 */
+	public void setPassword(final String aPassword) {
+		this.iPassword = aPassword;
+	}
 
-      tRedirectPage = NavigationPage.TENDER_OVERVIEW.value();
-    }
-    else
-    {
-      UserSessionHelper.addFacesMessage(FacesMessage.SEVERITY_ERROR, iMessageBundle.getString("LoginFailed"));
-    }
+	/**
+	 * The user logs into the system. He has access to all functionality after
+	 * log in.
+	 * 
+	 * @return {@link ApplicationPage#INDEX#value()} if the user has entered
+	 *         valid username and password or empty string otherwise
+	 */
+	public String login() {
+		String tRedirectPage = null;
+		User user = sessionService.login(iUsername, iPassword);
 
-    return tRedirectPage;
-  }
+		if (user.getId() > 0) {
+			UserSessionHelper.setUser(user);
+			logedUser = user;
+			tRedirectPage = NavigationPage.INDEX.value();
+		} else {
+			UserSessionHelper.addFacesMessage(FacesMessage.SEVERITY_ERROR,
+					"login failed");
+		}
 
-  /**
-   * User logs out from the system and redirect to Login page.
-   * 
-   * @return Logout the application
-   */
-  public String logout()
-  {
-    String tRedirectPage = NavigationPage.LOGIN.value();
+		return tRedirectPage;
+	}
 
-    UserSessionHelper.invalidateUserSession();
+	/**
+	 * User logs out from the system and redirect to Login page.
+	 * 
+	 * @return Logout the application
+	 */
+	public String logout() {
+		String tRedirectPage = NavigationPage.LOGIN.value();
 
-    return tRedirectPage;
-  }
+		UserSessionHelper.invalidateUserSession();
+		logedUser = null;
+		return tRedirectPage;
+	}
+
+	public User getLogedUser() {
+		System.out.println("asgfsdg");
+		return logedUser;
+	}
 }

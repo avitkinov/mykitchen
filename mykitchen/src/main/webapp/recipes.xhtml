@@ -25,7 +25,6 @@
 						<p:commandLink
 						id="recipe-details"
 						value="View Details"
-						actionListener="#{recipeManagedBean.viewRecipeDetails}"
 						update=":recipe-dialog-form:recipeDetail"
 							oncomplete="recipeDialog.show()" 
 							title="View Detail">
@@ -41,36 +40,12 @@
 		</h:form>
 		
 		<h:form id="recipe-dialog-form">
-		<p:dialog header="Recipe #{recipeManagedBean.selectedRecipe.title} details" widgetVar="recipeDialog"
-				modal="true">
+		<p:dialog showEffect="clip" hideEffect="clip" header="Recipe #{recipeManagedBean.selectedRecipe.title} details" widgetVar="recipeDialog"
+				modal="true" resizable="false">
 				<p:outputPanel id="recipeDetail" style="text-align:center;"
 					layout="block">
 
-					<h:panelGrid columns="1" columnClasses="label, value"
-						styleClass="grid">
-						<h:panelGrid columns="2">
-							<p:graphicImage value="#{recipeManagedBean.selectedRecipe.image}" />
-
-							<p:panel>
-								<p:outputLabel value="Необходими продукти" />
-								<p:dataList
-									value="#{recipeManagedBean.selectedRecipe.ingredients}"
-									var="ingredient" itemType="disc">  
-							#{ingredient.quantity} #{ingredient.uom.name} #{ingredient.product.name}
-								</p:dataList>
-							</p:panel>
-						</h:panelGrid>
-
-					<h:panelGrid columns="2" columnClasses="label, value">
-							<h:outputText value="Preparation:" />
-							<p:inputTextarea
-								value="#{recipeManagedBean.selectedRecipe.preparation}" />
-
-							<h:outputText value="Serving:" />
-							<p:inputTextarea
-								value="#{recipeManagedBean.selectedRecipe.serving}" />
-						</h:panelGrid>
-					</h:panelGrid>
+					<ui:include src="recipe_details_panel.xhtml" />
 				</p:outputPanel>
 			</p:dialog>
 			</h:form>

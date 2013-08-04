@@ -8,28 +8,10 @@
 	<ui:define name="title">#{bundle.IndexTitle}</ui:define>
 
 	<ui:define name="content">
-		<p:accordionPanel>
+		<p:tabView id="tabView" dynamic="true" effect="slide" effectDuration="normal">
+			
 			<p:tab title="Recipies">
-				<p:dataTable id="recipeTable" var="recipe" value="#{recipeManagedBean.recipes}"
-					paginator="true"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="9, 12, 15">
-
-					<f:facet name="header">
-						<p:commandButton value="add"/>
-						<p:commandButton value="edit"/>
-						<p:commandButton value="delete"/>
-					</f:facet>
-
-					<p:column headerText="Title">
-						<h:outputText value="#{recipe.title}" />
-					</p:column>
-
-					<p:column headerText="Image">
-						<h:outputText value="#{recipe.image}" />
-					</p:column>
-
-				</p:dataTable>
+				<ui:include src="recipeAdminPanel.xhtml" />
 			</p:tab>
 			<p:tab title="Products">
 				<h:panelGrid columns="2" cellpadding="10">
@@ -56,46 +38,7 @@
                 Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate." />
 				</h:panelGrid>
 			</p:tab>
-		</p:accordionPanel>
-
-
-
-
-		<h:form id="recipe-dialog-form">
-			<p:dialog
-				header="Recipe #{recipeManagedBean.selectedRecipe.title} details"
-				widgetVar="recipeDialog" modal="true">
-				<p:outputPanel id="recipeDetail" style="text-align:center;"
-					layout="block">
-
-					<h:panelGrid columns="1" columnClasses="label, value"
-						styleClass="grid">
-						<h:panelGrid columns="2">
-							<p:graphicImage value="#{recipeManagedBean.selectedRecipe.image}" />
-
-							<p:panel>
-								<p:outputLabel value="Необходими продукти" />
-								<p:dataList
-									value="#{recipeManagedBean.selectedRecipe.ingredients}"
-									var="ingredient" itemType="disc">  
-							#{ingredient.quantity} #{ingredient.uom.name} #{ingredient.product.name}
-								</p:dataList>
-							</p:panel>
-						</h:panelGrid>
-
-						<h:panelGrid columns="2" columnClasses="label, value">
-							<h:outputText value="Preparation:" />
-							<p:inputTextarea
-								value="#{recipeManagedBean.selectedRecipe.preparation}" />
-
-							<h:outputText value="Serving:" />
-							<p:inputTextarea
-								value="#{recipeManagedBean.selectedRecipe.serving}" />
-						</h:panelGrid>
-					</h:panelGrid>
-				</p:outputPanel>
-			</p:dialog>
-		</h:form>
+		</p:tabView>
 	</ui:define>
 
 

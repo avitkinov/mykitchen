@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:scrollPanel header="Recipe #{recipesBean.selectedRecipe.title}"
+		style="width:600px;height:400px">
+		<h:panelGrid columns="1" columnClasses="label, value"
+			styleClass="grid">
+			<h:panelGrid columns="2">
+				<p:graphicImage value="#{recipeManagedBean.selectedRecipe.image}"
+					width="300" />
+
+				<p:panel header="Необходими продукти">
+					<p:dataList value="#{recipeManagedBean.selectedRecipe.ingredients}"
+						var="ingredient" itemType="circle">  
+							#{ingredient.quantity} #{ingredient.uom.name} #{ingredient.product.name}
+					</p:dataList>
+				</p:panel>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" columnClasses="label, value">
+				<h:outputText value="Preparation:" />
+				<p:inputTextarea
+					value="#{recipeManagedBean.selectedRecipe.preparation}" rows="7"
+					cols="65" readonly="true"/>
+
+				<h:outputText value="Serving:" />
+				<p:inputTextarea value="#{recipeManagedBean.selectedRecipe.serving}"
+					cols="65" readonly="true" />
+			</h:panelGrid>
+		</h:panelGrid>
+	</p:scrollPanel>
+
+</ui:composition>

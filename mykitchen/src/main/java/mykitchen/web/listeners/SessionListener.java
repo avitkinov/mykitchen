@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 
 /**
- * Session listener for create and destroy session. When session is destroyed stop session timer.
+ * Session listener for create and destroy session.
  * 
  * @author Asparuh Vitkinov
  */

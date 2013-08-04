@@ -3,12 +3,14 @@ package mykitchen.business;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.ws.rs.core.MediaType;
 
 import mykitchen.model.Recipe;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 
@@ -16,43 +18,40 @@ import com.sun.jersey.api.client.WebResource;
 @Stateless
 public class RestufulRecipeBean implements RecipeBean {
 
+	private static final String RESTFUL_SERVER = "http://localhost:8080/mykitchen.rest";
+	private WebResource resource;
+	
+	@PostConstruct
+	private void init(){
+		Client client = Client.create();
+		resource = client.resource(RESTFUL_SERVER);
+	}
+	
 	@Override
-	public List<Recipe> getAllRecipes() {
-		Client client = Client.create(); 
-		String uri = "http://localhost:8080/mykitchen.rest/recipes"; 
-		WebResource resource = client.resource(uri); 
-		
-		List<Recipe> response = resource.accept("application/xml").get(new GenericType<List<Recipe>>() {});
+	public List<Recipe> getAllRecipes() {		
+		List<Recipe> response = resource.path("recipes").accept("application/xml").get(new GenericType<List<Recipe>>() {});
 		for (Recipe recipe : response) {
 			System.out.println(recipe);
 		}
-		return response;
-	}
-
-	@Override
-	public Recipe getRecipe(Long id) {
-		System.out.println("Get recipe with id:" + id);
-		Client client = Client.create(); 
-		String uri = "http://localhost:8080/mykitchen.rest/recipes"; 
-		WebResource resource = client.resource(uri).path(id.toString()); 
-		
-		Recipe response = resource.accept("application/xml").get(new GenericType<Recipe>(){});
 		
 		return response;
 	}
 
 	@Override
-	public void addRecipe(Recipe recipe) {
+	public Recipe getRecipe(Long id) {		
+		return resource.path("recipes").accept("application/xml").get(new GenericType<Recipe>(){});
+	}
 
+	@Override
+	public void putRecipe(Recipe recipe) {
+	    ClientResponse response = resource.path("recipes").accept(MediaType.APPLICATION_XML)
+	        .put(ClientResponse.class, recipe);
+	    System.out.println(response.getStatus());
 	}
 
 	@Override
 	public List<String> getAllRecipeImages() {
-		Client client = Client.create(); 
-		String uri = "http://localhost:8080/mykitchen.rest/recipes/images"; 
-		WebResource resource = client.resource(uri); 
-		
-		String response = resource.accept(MediaType.TEXT_PLAIN).get(String.class);
+		String response = resource.path("recipes/images").accept(MediaType.TEXT_PLAIN).get(String.class);
 		
 		List<String> result = new ArrayList<String>();
 		

@@ -5,20 +5,18 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 import mykitchen.business.RecipeBean;
 import mykitchen.model.Recipe;
 
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.TabChangeEvent;
 
 @ManagedBean
 @SessionScoped
-public class RecipeManagedBean implements Serializable {
+public class AdminManagedBean implements Serializable {
 
 	/**
 	 * Serial Version UID.
@@ -34,8 +32,8 @@ public class RecipeManagedBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		loadRecipes();
-		selectedRecipe = new Recipe();
+		recipes = recipeBean.getAllRecipes();
+
 	}
 
 	public Recipe getSelectedRecipe() {
@@ -53,30 +51,10 @@ public class RecipeManagedBean implements Serializable {
 	public String onFlowProcess(FlowEvent event) {
 		return event.getNewStep();
 	}
-
-	public void loadRecipes() {
-		recipes = recipeBean.getAllRecipes();
-	}
-
-	public void addRecipe() {
-		System.out.println("add");
-		selectedRecipe = new Recipe();
-	}
-
-	public void editRecipe() {
-		System.out.println("edit");
-	}
-
-	public void deleteRecipe() {
-		recipes.remove(selectedRecipe);
-		System.out.println("delete");
-	}
-
-	public void save(ActionEvent actionEvent) {
-		System.out.println("save");
-
-		recipeBean.putRecipe(selectedRecipe);
+	
+	public String viewRecipeDetails(){
+		System.out.println("Click");
 		
-		loadRecipes();
+		return null;
 	}
 }

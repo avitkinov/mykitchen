@@ -54,8 +54,14 @@ public class RecipeResource {
 
 	@PUT
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public void add(JAXBElement<Recipe> recipe) {
-		recipeRepository.add(recipe.getValue());
+	public void put(JAXBElement<Recipe> input) {
+		Recipe recipe = input.getValue();
+
+		if (recipe.getId() == 0) {
+			recipeRepository.add(recipe);
+		} else {
+			recipeRepository.edit(recipe);
+		}
 	}
 
 	@GET
@@ -64,11 +70,11 @@ public class RecipeResource {
 	public String getRecipeImages() {
 		List<String> allImages = recipeRepository.getAllImages();
 		StringBuilder result = new StringBuilder();
-		
+
 		for (String imagePath : allImages) {
 			result.append(imagePath).append('!');
 		}
-		
+
 		return result.toString();
 	}
 }

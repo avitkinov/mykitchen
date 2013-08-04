@@ -11,7 +11,7 @@ import mykitchen.model.User;
  * @author Asparuh Vitkinov
  */
 @Local
-public interface ISessionBean {
+public interface SessionBean {
 
 	/**
 	 * Login with provided username and password.

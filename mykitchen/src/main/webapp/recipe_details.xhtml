@@ -8,28 +8,6 @@
 	<ui:define name="title">#{bundle.IndexTitle}</ui:define>
 
 	<ui:define name="content">
-		<p:panel header="Recipe #{recipesBean.selectedRecipe.title}">
-			<h:panelGrid columns="1" columnClasses="label, value"
-				styleClass="grid">
-				<h:panelGrid columns="2">
-					<p:graphicImage value="#{recipesBean.selectedRecipe.image}" />
-
-					<p:panel>
-						<p:dataList value="#{recipesBean.selectedRecipe.ingredients}"
-							var="ingredients" itemType="disc">  
-							#{ingredient.quantity} #{ingredient.uom.name} #{ingredient.product.name}
-						</p:dataList>
-					</p:panel>
-				</h:panelGrid>
-
-				<h:panelGrid columns="2" columnClasses="label, value">
-					<h:outputText value="Preparation:" />
-					<p:inputTextarea value="#{recipesBean.selectedRecipe.preparation}" />
-	
-					<h:outputText value="Serving:" />
-					<p:inputTextarea value="#{recipesBean.selectedRecipe.serving}" />
-				</h:panelGrid>
-			</h:panelGrid>
-		</p:panel>
+		<ui:include src="recipe_details_panel.xhtml" />
 	</ui:define>
 </ui:composition>
