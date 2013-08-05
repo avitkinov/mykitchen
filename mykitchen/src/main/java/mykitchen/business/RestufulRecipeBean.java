@@ -29,29 +29,26 @@ public class RestufulRecipeBean implements RecipeBean {
 	
 	@Override
 	public List<Recipe> getAllRecipes() {		
-		List<Recipe> response = resource.path("recipes").accept("application/xml").get(new GenericType<List<Recipe>>() {});
-		for (Recipe recipe : response) {
-			System.out.println(recipe);
-		}
+		List<Recipe> response = resource.path("recipes").accept(MediaType.APPLICATION_XML).get(new GenericType<List<Recipe>>() {});
 		
 		return response;
 	}
 
 	@Override
 	public Recipe getRecipe(Long id) {		
-		return resource.path("recipes").accept("application/xml").get(new GenericType<Recipe>(){});
+		return resource.path("recipes").accept(MediaType.APPLICATION_XML).get(new GenericType<Recipe>(){});
 	}
 
 	@Override
 	public void putRecipe(Recipe recipe) {
-	    ClientResponse response = resource.path("recipes").accept(MediaType.APPLICATION_XML)
+	    ClientResponse response = resource.path("recipes").type(MediaType.APPLICATION_XML)
 	        .put(ClientResponse.class, recipe);
 	    System.out.println(response.getStatus());
 	}
 
 	@Override
 	public List<String> getAllRecipeImages() {
-		String response = resource.path("recipes/images").accept(MediaType.TEXT_PLAIN).get(String.class);
+		String response = resource.path("recipes").path("images").accept(MediaType.TEXT_PLAIN).get(String.class);
 		
 		List<String> result = new ArrayList<String>();
 		

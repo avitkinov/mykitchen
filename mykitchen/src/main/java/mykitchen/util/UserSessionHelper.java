@@ -1,4 +1,4 @@
-package mykitchen.web.managedbeans;
+package mykitchen.util;
 
 import java.util.Map;
 

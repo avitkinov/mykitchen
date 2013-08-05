@@ -8,76 +8,38 @@
 	<ui:define name="title">#{bundle.IndexTitle}</ui:define>
 
 	<ui:define name="content">
-	
+		<h:form>
+			<p:messages id="messages" autoUpdate="true" />
+			<h:panelGrid columns="2" id="regGrid">
+				<h:outputLabel value="#{bundle.Username}:" for="username" />
+				<h:inputText id="username" label="#{bundle.Username}"
+					value="#{loginManagedBean.user.username}" styleClass="inputbox"
+					required="true" />
 
-		<div class="body">
-		
-			<div>
-				<h:link outcome="index">
-					<h:graphicImage value="/resources/images/turkey.jpg" />
-				</h:link>
-			</div>
-			<ul>
-				<li class="current"><a href="blog.html"><h:graphicImage
-							value="/resources/images/holi-turkey.jpg" /></a>
-					<div>
-						<h2>
-							<a href="blog.html">Holy Turkey</a>
-						</h2>
-						<p>This is just a place holder</p>
-					</div></li>
-				<li><a href="blog.html"><h:graphicImage
-							value="/resources/images/fruits-and-bread.jpg" /></a>
-					<div>
-						<h2>
-							<a href="blog.html">Fruits &amp; Bread</a>
-						</h2>
-						<p>This is just a place holder</p>
-					</div></li>
-				<li><a href="blog.html"><h:graphicImage
-							value="/resources/images/dessert.jpg" /></a>
-					<div>
-						<h2>
-							<a href="blog.html">Dessert</a>
-						</h2>
-						<p>This is just a place holder</p>
-					</div></li>
-			</ul>
-		</div>
+				<h:outputLabel value="#{bundle.Password}:" for="password" />
+				<p:password id="password" value="#{loginManagedBean.user.password}"
+					styleClass="inputbox" required="true" feedback="true"
+					match="passwordagain" />
 
-		<div class="footer">
-			<ul>
-				<li>
-					<h2>
-						<a href="featured.html">Featured Recipes</a>
-					</h2> <a href="featured.html"><h:graphicImage
-							value="/resources/images/featured.jpg" /></a>
-				</li>
-				<li>
-					<h2>
-						<a href="recipes.html">A to Z Recipes</a>
-					</h2> <a href="recipes.html"><h:graphicImage
-							value="/resources/images/a-z.jpg" /></a>
-				</li>
-			</ul>
-			<ul>
-				<li>
-					<h2>
-						<a href="videos.html">Videos</a>
-					</h2> <a href="videos.html"><h:graphicImage
-							value="/resources/images/videos.jpg" /></a>
-				</li>
-				<li>
-					<h2>
-						<a href="blog.html">Blog</a>
-					</h2> <a href="blog.html"><h:graphicImage
-							value="/resources/images/blog.jpg" /></a>
-				</li>
-			</ul>
-		</div>
-	</ui:define>
+				<h:outputLabel value="#{bundle.Password}:" for="passwordagain" />
+				<p:password id="passwordagain"
+					value="#{loginManagedBean.passwordagain}" styleClass="inputbox"
+					required="true" />
 
-	<ui:define name="right">
-		<ui:insert name="right.xhml" />
+				<h:outputLabel value="#{bundle.FirstName}:" for="firstname" />
+				<h:inputText id="firstname" label="#{bundle.FirstName}"
+					value="#{loginManagedBean.user.firstName}" styleClass="inputbox"
+					required="true" />
+
+				<h:outputLabel value="#{bundle.LastName}:" for="lastname" />
+				<h:inputText id="lastname" label="#{bundle.LastName}"
+					value="#{loginManagedBean.user.lastName}" styleClass="inputbox"
+					required="true" />
+
+				<h:outputLabel />
+				<p:commandButton value="#{bundle.Register}" update="regGrid"
+					action="#{loginManagedBean.register}" styleClass="button" />
+			</h:panelGrid>
+		</h:form>
 	</ui:define>
 </ui:composition>

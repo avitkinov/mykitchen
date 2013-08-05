@@ -106,3 +106,7 @@ div.body div.header ul li a {
 div.body.content {
 	width: 716px;
 }
+
+div.body.right {
+	float: left;
+}

@@ -12,7 +12,6 @@ import mykitchen.business.RecipeBean;
 import mykitchen.model.Recipe;
 
 import org.primefaces.event.FlowEvent;
-import org.primefaces.event.TabChangeEvent;
 
 @ManagedBean
 @SessionScoped

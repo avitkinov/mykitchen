@@ -38,6 +38,10 @@
 		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
 		<location>/login.xhtml</location>
 	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/error.jsf</location>
+	</error-page>
 
 	<listener>
 		<listener-class>mykitchen.web.listeners.SessionListener</listener-class>

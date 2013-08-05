@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,7 +32,7 @@ public class Recipe implements Serializable {
 
 	private String image;
 
-	@OneToOne
+	@OneToMany
 	private List<RecipeIngredient> ingredients;
 
 	private String preparation;

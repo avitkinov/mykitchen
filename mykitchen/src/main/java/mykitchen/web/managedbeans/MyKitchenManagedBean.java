@@ -16,7 +16,7 @@ import org.primefaces.event.FlowEvent;
 
 @ManagedBean
 @SessionScoped
-public class RecipeManagedBean implements Serializable {
+public class MyKitchenManagedBean implements Serializable {
 
 	/**
 	 * Serial Version UID.

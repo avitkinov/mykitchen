@@ -1,11 +1,13 @@
 package mykitchen.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,18 +28,23 @@ public class User implements Serializable {
 	private String password;
 	private String firstName;
 	private String lastName;
+	@OneToMany
+	private List<UserProduct> products;
+	private boolean admin;
 
 	public User() {
-		this(0L, null, null, null, null);
+		this(0L, null, null, null, null, null, false);
 	}
 
 	public User(Long id, String username, String password, String firstName,
-			String lastName) {
+			String lastName, List<UserProduct> products, boolean admin) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.products = products;
+		this.admin = admin;
 	}
 
 	/**
@@ -58,7 +65,7 @@ public class User implements Serializable {
 	/**
 	 * @return the username
 	 */
-	public String getUserName() {
+	public String getUsername() {
 		return username;
 	}
 
@@ -66,7 +73,7 @@ public class User implements Serializable {
 	 * @param username
 	 *            the username to set
 	 */
-	public void setUserName(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
@@ -114,10 +121,34 @@ public class User implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
+	/**
+	 * @return the products
+	 */
+	public List<UserProduct> getProducts() {
+		return products;
+	}
+
+	/**
+	 * @param products
+	 *            the products to set
+	 */
+	public void setProducts(List<UserProduct> products) {
+		this.products = products;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("{User: %d %s %s %s %s}", id, firstName, lastName, username, password);
+		return String.format("{User: %d %s %s %s %s}", id, firstName, lastName,
+				username, password);
 	}
 
 }

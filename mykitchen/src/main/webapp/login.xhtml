@@ -8,38 +8,9 @@
 	<ui:define name="title">#{bundle.IndexTitle}</ui:define>
 
 	<ui:define name="content">
-		<h:form>
-			<div align="center">
-				<p:panel styleClass="login_panel">
-					<f:facet name="header">
-						<h:outputText value="#{bundle.Login}" />
-					</f:facet>
-					<p:messages id="messages" showDetail="true" autoUpdate="true" /> 
-					<h:graphicImage value="resources/images/logo.gif" />
-					<br />
-					<div>
-						<p:messages layout="list" />
-					</div>
-
-					<h:panelGrid columns="2">
-						<h:outputLabel value="#{bundle.Username}:" for="username" />
-						<h:inputText id="username" label="#{bundle.Username}"
-							value="#{loginManagedBean.username}" styleClass="inputbox"
-							required="true" />
-
-						<h:outputLabel value="#{bundle.Password}:" for="password" />
-						<h:inputSecret id="password" value="#{loginManagedBean.password}"
-							styleClass="inputbox" />
-
-						<a href="password_renew.xhtml">#{bundle.ForgottenPassword}</a>
-						<p:commandButton status="loadingStatus" value="#{bundle.Login}"
-							action="#{loginManagedBean.login}" styleClass="button" />
-
-					</h:panelGrid>
-				</p:panel>
-			</div>
-		</h:form>
-		<!--  <ui:include src="/WEB-INF/templates/loading_status.xhtml" /> -->
+		<div align="center">
+			<ui:include src="/loginform.xhtml" />
+		</div>
 	</ui:define>
 
 </ui:composition>

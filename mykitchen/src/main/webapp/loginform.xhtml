@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+		<p:panel styleClass="login_panel">
+			<f:facet name="header">
+				<h:outputText value="#{bundle.Login}" />
+			</f:facet>
+			<p:messages id="messages" showDetail="true" autoUpdate="true" />
+			<div>
+				<p:messages layout="list" />
+			</div>
+
+			<h:panelGrid columns="2">
+				<h:outputLabel value="#{bundle.Username}:" for="username" />
+				<h:inputText id="username" label="#{bundle.Username}"
+					value="#{loginManagedBean.user.username}" styleClass="inputbox"
+					required="true" />
+
+				<h:outputLabel value="#{bundle.Password}:" for="password" />
+				<h:inputSecret id="password"
+					value="#{loginManagedBean.user.password}" styleClass="inputbox" />
+				
+				<h:panelGrid columns="1">
+					<h:link outcome="register" value="#{bundle.Register}"/>
+					<a href="password_renew.xhtml">#{bundle.ForgottenPassword}</a>
+				</h:panelGrid>
+				<p:commandButton status="loadingStatus" value="#{bundle.Login}"
+					action="#{loginManagedBean.login}" styleClass="button" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</ui:composition>

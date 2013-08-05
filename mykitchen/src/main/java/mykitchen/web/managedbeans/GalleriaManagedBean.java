@@ -27,7 +27,6 @@ public class GalleriaManagedBean implements Serializable {
 	@PostConstruct
 	public void init() {		
 		imagesPath = recipeBean.getAllRecipeImages();
-		System.out.println(imagesPath);
 	}
 
 	public List<String> getImagesPath() {

@@ -11,8 +11,7 @@ import javax.faces.bean.SessionScoped;
 import mykitchen.business.SessionBean;
 import mykitchen.model.User;
 import mykitchen.util.NavigationPage;
-
-import org.apache.log4j.Logger;
+import mykitchen.util.UserSessionHelper;
 
 /**
  * Controls the login process and stores the logged in user.
@@ -25,64 +24,44 @@ public class LoginManagedBean implements Serializable {
 	/** Serial Version ID. */
 	private static final long serialVersionUID = 6704436797880373164L;
 
-	/** Logger. */
-	private static final Logger cLogger = Logger
-			.getLogger(LoginManagedBean.class);
+	private User user = new User();
 
-	/** Variable for username field. */
-	private String iUsername;
+	private String passwordagain;
 
-	/** Variable for password field. */
-	private String iPassword;
+	private boolean logged;
 
 	/** Session service. */
 	@EJB
 	private SessionBean sessionService;
 
-	private User logedUser;
-
 	/** Initialize container with messages. */
 	@PostConstruct
-	public void postContruct() {
-		cLogger.info("LoginManagedBean is initialized");
+	public void init() {
+		System.out.println("LoginManagedBean is initialized");
 	}
 
-	/**
-	 * Get username.
-	 * 
-	 * @return the Username
-	 */
-	public String getUsername() {
-		return iUsername;
+	public User getUser() {
+		return user;
 	}
 
-	/**
-	 * Set username.
-	 * 
-	 * @param aUsername
-	 *            the Username to set
-	 */
-	public void setUsername(final String aUsername) {
-		this.iUsername = aUsername;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	/**
-	 * Get password.
-	 * 
-	 * @return the Password
-	 */
-	public String getPassword() {
-		return iPassword;
+	public String getPasswordagain() {
+		return passwordagain;
 	}
 
-	/**
-	 * Set password.
-	 * 
-	 * @param aPassword
-	 *            the iPassword to set
-	 */
-	public void setPassword(final String aPassword) {
-		this.iPassword = aPassword;
+	public void setPasswordagain(String passwordagain) {
+		this.passwordagain = passwordagain;
+	}
+
+	public boolean isLogged() {
+		return logged;
+	}
+
+	public void setLogged(boolean logged) {
+		this.logged = logged;
 	}
 
 	/**
@@ -94,11 +73,13 @@ public class LoginManagedBean implements Serializable {
 	 */
 	public String login() {
 		String tRedirectPage = null;
-		User user = sessionService.login(iUsername, iPassword);
+		User user = sessionService.login(this.user.getUsername(),
+				this.user.getPassword());
 
 		if (user.getId() > 0) {
 			UserSessionHelper.setUser(user);
-			logedUser = user;
+			setUser(user);
+			setLogged(true);
 			tRedirectPage = NavigationPage.INDEX.value();
 		} else {
 			UserSessionHelper.addFacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -114,15 +95,25 @@ public class LoginManagedBean implements Serializable {
 	 * @return Logout the application
 	 */
 	public String logout() {
-		String tRedirectPage = NavigationPage.LOGIN.value();
+		String redirectPage = NavigationPage.INDEX.value();
 
 		UserSessionHelper.invalidateUserSession();
-		logedUser = null;
-		return tRedirectPage;
+
+		return redirectPage;
 	}
 
-	public User getLogedUser() {
-		System.out.println("asgfsdg");
-		return logedUser;
+	public String register() {
+		String redirectPage;
+		boolean isExistUsername = sessionService.isExist(user.getUsername());
+		if (isExistUsername) {
+			UserSessionHelper.addFacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Username exist");
+			redirectPage = null;
+		} else {
+			sessionService.add(user);
+			redirectPage = NavigationPage.LOGIN.value();
+		}
+
+		return redirectPage;
 	}
 }

@@ -9,7 +9,6 @@ import mykitchen.model.User;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.representation.Form;
 
 /**
  * Session service for login and logout.
@@ -44,5 +43,24 @@ public class RestfulSessionBean implements SessionBean {
 				.get(User.class);
 
 		return response;
+	}
+
+	@Override
+	public boolean isExist(String userName) {
+		WebResource webResource = resource.path("users").path("exist")
+				.path(userName);
+
+		String response = webResource.accept(MediaType.TEXT_PLAIN).get(
+				String.class);
+		System.err.println(userName + response);
+		return response.toLowerCase().equals("true");
+	}
+
+	@Override
+	public void add(final User user) {
+		ClientResponse response = resource.path("users")
+				.type(MediaType.APPLICATION_XML)
+				.put(ClientResponse.class, user);
+		System.out.println(response.getStatus());
 	}
 }

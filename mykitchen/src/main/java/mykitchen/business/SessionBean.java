@@ -24,4 +24,8 @@ public interface SessionBean {
 	 * @return User if exist, otherwise <code>null</code>
 	 */
 	User login(String userName, String password);
+
+	boolean isExist(String userName);
+
+	void add(User user);
 }

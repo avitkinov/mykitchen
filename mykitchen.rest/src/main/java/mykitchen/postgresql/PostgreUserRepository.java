@@ -26,4 +26,18 @@ public class PostgreUserRepository extends PostgreBaseRepository<User>
 		return resultList.isEmpty() ? new User() : resultList.get(0);
 	}
 
+	@Override
+	public boolean isExist(String username) {
+		TypedQuery<User> query = entityManager
+				.createQuery(
+						"SELECT u FROM User u WHERE u.username = :username",
+						User.class);
+		query.setParameter("username", username);
+
+		List<User> result = query.getResultList();
+
+		return !result.isEmpty();
+
+	}
+
 }
