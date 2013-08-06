@@ -40,10 +40,11 @@ public class RestufulRecipeBean implements RecipeBean {
 	}
 
 	@Override
-	public void putRecipe(Recipe recipe) {
+	public int putRecipe(final Recipe recipe) {
 	    ClientResponse response = resource.path("recipes").type(MediaType.APPLICATION_XML)
 	        .put(ClientResponse.class, recipe);
-	    System.out.println(response.getStatus());
+	    
+	    return response.getStatus();
 	}
 
 	@Override

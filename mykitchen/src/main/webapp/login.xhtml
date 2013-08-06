@@ -1,15 +1,15 @@
-<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml"
+<ui:composition template="/WEB-INF/templates/basic_template.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="title">#{bundle.IndexTitle}</ui:define>
+	<ui:define name="title">#{bundle.LoginTitle}</ui:define>
 
 	<ui:define name="content">
 		<div align="center">
-			<ui:include src="/loginform.xhtml" />
+			<ui:include src="/login_form.xhtml" />
 		</div>
 	</ui:define>
 

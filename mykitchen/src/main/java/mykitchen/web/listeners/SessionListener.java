@@ -3,7 +3,7 @@ package mykitchen.web.listeners;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import mykitchen.util.UserSessionHelper;
+import mykitchen.web.utils.UserSessionHelper;
 
 import org.apache.log4j.Logger;
 

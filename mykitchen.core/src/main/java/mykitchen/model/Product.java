@@ -1,6 +1,7 @@
 package mykitchen.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,12 +22,12 @@ public class Product implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
-	
+
 	@OneToOne
 	private ProductCategory category;
-	
+
 	private String description;
 
 	public Product() {
@@ -72,9 +73,10 @@ public class Product implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	@Override
 	public String toString() {
-		return String.format("{Product: %d %s %s %s}", id, name, category, description);
+		return String.format("{Product: %d %s %s %s}", id, name, category,
+				description);
 	}
 }

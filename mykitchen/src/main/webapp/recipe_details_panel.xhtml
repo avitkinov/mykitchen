@@ -12,7 +12,7 @@
 				<p:graphicImage value="#{recipeManagedBean.selectedRecipe.image}"
 					width="300" />
 
-				<p:panel header="Необходими продукти">
+				<p:panel header="#{bundle.NecessaryProducts}">
 					<p:dataList value="#{recipeManagedBean.selectedRecipe.ingredients}"
 						var="ingredient" itemType="circle">  
 							#{ingredient.quantity} #{ingredient.uom.name} #{ingredient.product.name}
@@ -21,12 +21,12 @@
 			</h:panelGrid>
 
 			<h:panelGrid columns="2" columnClasses="label, value">
-				<h:outputText value="Preparation:" />
+				<h:outputText value="#{bundle.Preparation}" />
 				<p:inputTextarea
 					value="#{recipeManagedBean.selectedRecipe.preparation}" rows="7"
 					cols="65" readonly="true"/>
 
-				<h:outputText value="Serving:" />
+				<h:outputText value="#{bundle.Serving}" />
 				<p:inputTextarea value="#{recipeManagedBean.selectedRecipe.serving}"
 					cols="65" readonly="true" />
 			</h:panelGrid>

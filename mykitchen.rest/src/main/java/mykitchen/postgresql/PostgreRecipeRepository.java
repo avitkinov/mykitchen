@@ -3,7 +3,7 @@ package mykitchen.postgresql;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import mykitchen.model.Product;
 import mykitchen.model.Recipe;
@@ -19,9 +19,9 @@ public class PostgreRecipeRepository extends PostgreBaseRepository<Recipe> imple
 	public List<String> getAllImages() {
 		List<String> result;
 		
-		Query query = entityManager.createQuery("SELECT r.image FROM Recipe r");
+		TypedQuery<String> query = entityManager.createQuery("SELECT r.image FROM Recipe r", String.class);
 		result = query.getResultList();
-	   
+	   System.out.println(result);
 		return result;
 	}
 

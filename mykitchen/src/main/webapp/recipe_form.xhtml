@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel id="display">
+		<h:form id="form">
+			<p:wizard flowListener="#{recipeManagedBean.onFlowProcess}">
+
+				<p:tab id="main" title="Main">
+
+					<p:panel header="#{bundle.RecipeDetails}">
+
+						<p:messages errorClass="error" />
+
+						<p:panelGrid columns="2" columnClasses="label, value"
+							styleClass="grid">
+							<h:outputText value="#{bundle.Title} *" />
+							<p:inputText required="true" label="#{bundle.Title}"
+								value="#{recipeManagedBean.selectedRecipe.title}" />
+
+							<h:outputText value="#{bundle.Image} *" />
+							<p:inputText required="true" label="#{bundle.Image}"
+								value="#{recipeManagedBean.selectedRecipe.image}" />
+						</p:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="ingredients" title="#{bundle.Ingredients}">
+					<p:panel header="#{bundle.IngredientsDetails}">
+
+						<p:messages errorClass="error" />
+
+						<p:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="#{bundle.Ingredients}" />
+							<p:dataTable var="ingredient"
+								value="#{recipeManagedBean.selectedRecipe.ingredients}"
+								id="ingredientsTable" editable="true">
+
+								<p:ajax event="rowEdit" listener="#{tableBean.onEdit}"
+									update=":form:messages" />
+								<p:ajax event="rowEditCancel" listener="#{tableBean.onCancel}"
+									update=":form:messages" />
+
+								<p:column headerText="#{bundle.Product}">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{ingredient.product.name}" />
+										</f:facet>
+										<f:facet name="input">
+											<h:selectOneMenu value="#{ingredient.product}">
+												<f:selectItems value="#{tableBean.manufacturers}" var="man"
+													itemLabel="#{man}" itemValue="#{man}" />
+											</h:selectOneMenu>
+										</f:facet>
+									</p:cellEditor>
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{ingredient.product.name}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{ingredient.product.name}"
+												style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="#{bundle.Quantity}">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{ingredient.quantity}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{ingredient.quantity}"
+												style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="#{bundle.UnitOfMeasure}">
+									<h:outputText value="#{ingredient.uom.name}" />
+								</p:column>
+							</p:dataTable>
+						</p:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="preparation" title="#{bundle.Preparation}">
+					<p:panel header="#{bundle.PreparationDetails}">
+
+						<p:messages errorClass="error" />
+
+						<p:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="#{bundle.Preparation}*" />
+							<p:editor id="preparation_editor"
+								value="#{recipeManagedBean.selectedRecipe.preparation}"
+								required="true" />
+						</p:panelGrid>
+					</p:panel>
+				</p:tab>
+				<p:tab id="serving" title="#{bundle.Serving}">
+					<p:panel header="#{bundle.ServingDetails}">
+
+						<p:messages errorClass="error" />
+
+						<p:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="#{bundle.Serving} *" />
+							<p:editor id="serving_editor"
+								value="#{recipeManagedBean.selectedRecipe.serving}"
+								required="true" />
+						</p:panelGrid>
+					</p:panel>
+				</p:tab>
+				<p:tab id="confirm" title="#{bundle.Confirmation}">
+					<ui:include src="recipe_details_panel.xhtml" />
+
+					<p:commandButton value="#{bundle.Submit}"
+						actionListener="#{recipeManagedBean.save}" />
+				</p:tab>
+			</p:wizard>
+		</h:form>
+	</p:panel>
+</ui:composition>

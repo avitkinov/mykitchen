@@ -9,9 +9,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
+import mykitchen.business.ProductBean;
 import mykitchen.business.RecipeBean;
+import mykitchen.business.UnitOfMeasureBean;
+import mykitchen.model.Product;
 import mykitchen.model.Recipe;
+import mykitchen.model.UnitOfMeasure;
+import mykitchen.web.utils.UserSessionHelper;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 
 @ManagedBean
@@ -25,10 +31,19 @@ public class RecipeManagedBean implements Serializable {
 
 	private List<Recipe> recipes;
 
+	private List<Product> products;
+	private List<UnitOfMeasure> uoms;
+
 	private Recipe selectedRecipe;
 
 	@EJB
 	private RecipeBean recipeBean;
+
+	@EJB
+	private ProductBean productBean;
+
+	@EJB
+	private UnitOfMeasureBean unitOfMeasureBean;
 
 	@PostConstruct
 	public void init() {
@@ -42,7 +57,6 @@ public class RecipeManagedBean implements Serializable {
 	}
 
 	public void setSelectedRecipe(Recipe selectedRecipe) {
-		System.err.println("Set selected recipe" + selectedRecipe);
 		this.selectedRecipe = selectedRecipe;
 	}
 
@@ -51,7 +65,6 @@ public class RecipeManagedBean implements Serializable {
 	}
 
 	public String onFlowProcess(FlowEvent event) {
-		System.out.println("*****" + selectedRecipe);
 		return event.getNewStep();
 	}
 
@@ -62,11 +75,17 @@ public class RecipeManagedBean implements Serializable {
 
 	public void addRecipe() {
 		selectedRecipe = new Recipe();
-		System.err.println("add" + selectedRecipe);
+		selectedRecipe.getRecipeinfo().setAutor(UserSessionHelper.getUser());
+
+		uoms = unitOfMeasureBean.getAll();
+		products = productBean.getAllProducts();
+		RequestContext.getCurrentInstance().execute("recipeDialog.show()");
 	}
 
 	public void editRecipe() {
 		System.err.println("edit " + selectedRecipe);
+
+		RequestContext.getCurrentInstance().execute("recipeDialog.show()");
 	}
 
 	public void deleteRecipe() {
@@ -74,11 +93,30 @@ public class RecipeManagedBean implements Serializable {
 		recipes.remove(selectedRecipe);
 	}
 
-	public void save(ActionEvent actionEvent) {
+	public void save() {
 		System.out.println("save");
 		System.out.println("Selected recipe" + selectedRecipe);
+
 		recipeBean.putRecipe(selectedRecipe);
-		
+
+		RequestContext.getCurrentInstance().execute("recipeDialog.hide()");
+
 		loadRecipes();
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	public List<UnitOfMeasure> getUoms() {
+		return uoms;
+	}
+
+	public void setUoms(List<UnitOfMeasure> uoms) {
+		this.uoms = uoms;
 	}
 }

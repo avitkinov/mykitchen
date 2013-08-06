@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mykitchen.util.UserSessionHelper;
+import mykitchen.web.utils.UserSessionHelper;
 
 /**
  * Blocks access to the application for not logged in users.

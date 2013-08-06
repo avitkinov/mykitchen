@@ -6,10 +6,10 @@
 
 	<div>
 		<h:form rendered="#{loginManagedBean.logged == false}">
-			<ui:include src="/loginform.xhtml" />
+			<ui:include src="/login_form.xhtml" />
 		</h:form>
 		<h:form rendered="#{loginManagedBean.logged == true}">
-			<ui:include src="/userinfo.xhtml" />
+			<ui:include src="/user_info.xhtml" />
 		</h:form>
 	</div>
 	<div>

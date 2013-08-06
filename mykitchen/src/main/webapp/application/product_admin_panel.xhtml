@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="product-form">
+		<p:commandButton value="#{bundle.Add}" update="display"
+			icon="ui-icon-plus" actionListener="#{productManagedBean.addProduct}" />
+		<p:commandButton value="#{bundle.Refresh}" update="productTable"
+			icon="ui-icon-refresh"
+			actionListener="#{productManagedBean.loadProducts}" />
+		<p:contextMenu for="productTable">
+			<p:menuitem value="#{bundle.Edit}" update="display"
+				icon="ui-icon-pencil"
+				actionListener="#{productManagedBean.editProduct}" />
+			<p:menuitem value="#{bundle.Delete}" update="productTable"
+				icon="ui-icon-close"
+				actionListener="#{productManagedBean.deleteProduct}" />
+		</p:contextMenu>
+
+		<p:dataTable id="productTable" var="product"
+			value="#{productManagedBean.products}" rowKey="#{product.id}"
+			selection="#{productManagedBean.selectedProduct}"
+			selectionMode="single" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="9, 12, 15">
+
+			<p:column headerText="#{bundle.Name}">
+				<h:outputText value="#{product.name}" />
+			</p:column>
+
+			<p:column headerText="#{bundle.Category}">
+				<h:outputText value="#{product.category}" />
+			</p:column>
+
+			<p:column headerText="#{bundle.Description}">
+				<h:outputText value="#{recipe.description}" />
+			</p:column>
+		</p:dataTable>
+
+
+		<p:dialog header="#{bundle.Product}" widgetVar="productDialog"
+			modal="true" dynamic="true">
+			<p:panel id="display">
+
+				<h:outputText value="#{bundle.Name} *" />
+				<p:inputText required="true" label="#{bundle.Name}"
+					value="#{productManagedBean.selectedProduct.name}" />
+
+				<h:outputText value="#{bundle.Description} *" />
+				<p:inputText required="true" label="#{bundle.Description}"
+					value="#{productManagedBean.selectedProduct.description}" />
+				<p:commandButton value="#{bundle.Submit}"
+					action="#{productManagedBean.save}" process="@form" />
+			</p:panel>
+		</p:dialog>
+	</h:form>
+</ui:composition>

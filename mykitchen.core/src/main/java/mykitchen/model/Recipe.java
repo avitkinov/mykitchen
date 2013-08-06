@@ -3,6 +3,7 @@ package mykitchen.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,8 +27,8 @@ public class Recipe implements Serializable {
 	private Long id;
 
 	private String title;
-	
-	@OneToOne
+
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private RecipeInfo recipeinfo;
 
 	private String image;
@@ -42,9 +43,9 @@ public class Recipe implements Serializable {
 		this(new Long(0), null, new RecipeInfo(), null, null, null, null);
 	}
 
-	public Recipe(Long id, String title, RecipeInfo recipeinfo,
-			String image, List<RecipeIngredient> ingredients,
-			String preparation, String serving) {
+	public Recipe(Long id, String title, RecipeInfo recipeinfo, String image,
+			List<RecipeIngredient> ingredients, String preparation,
+			String serving) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -159,10 +160,11 @@ public class Recipe implements Serializable {
 	public void setServing(String serving) {
 		this.serving = serving;
 	}
-	
+
 	@Override
 	public String toString() {
-		return String.format("{Recipe: %d %s %s %s %s %s %s}", id, title, recipeinfo, ingredients, preparation, serving, image) ;
+		return String.format("{Recipe: %d %s %s %s %s %s %s}", id, title,
+				recipeinfo, ingredients, preparation, serving, image);
 	}
 
 }

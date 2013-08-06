@@ -11,7 +11,7 @@ import javax.faces.bean.SessionScoped;
 import mykitchen.business.SessionBean;
 import mykitchen.model.User;
 import mykitchen.util.NavigationPage;
-import mykitchen.util.UserSessionHelper;
+import mykitchen.web.utils.UserSessionHelper;
 
 /**
  * Controls the login process and stores the logged in user.

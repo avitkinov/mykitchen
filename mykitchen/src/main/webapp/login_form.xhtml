@@ -25,11 +25,8 @@
 				<h:outputLabel value="#{bundle.Password}:" for="password" />
 				<h:inputSecret id="password"
 					value="#{loginManagedBean.user.password}" styleClass="inputbox" />
-				
-				<h:panelGrid columns="1">
-					<h:link outcome="register" value="#{bundle.Register}"/>
-					<a href="password_renew.xhtml">#{bundle.ForgottenPassword}</a>
-				</h:panelGrid>
+
+				<h:link outcome="register" value="#{bundle.Register}" />
 				<p:commandButton status="loadingStatus" value="#{bundle.Login}"
 					action="#{loginManagedBean.login}" styleClass="button" />
 			</h:panelGrid>

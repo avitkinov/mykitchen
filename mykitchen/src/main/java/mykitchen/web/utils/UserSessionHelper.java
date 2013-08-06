@@ -1,4 +1,4 @@
-package mykitchen.util;
+package mykitchen.web.utils;
 
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class UserSessionHelper {
 	 * 
 	 * @return Current faces context
 	 */
-	private static FacesContext getCurrentFacesContextInstance() {
+	public static FacesContext getCurrentFacesContextInstance() {
 		return FacesContext.getCurrentInstance();
 	}
 
