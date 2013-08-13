@@ -1,5 +1,7 @@
 package mykitchen.rest.resources;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -14,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
 
 import mykitchen.model.User;
+import mykitchen.model.UserProduct;
+import mykitchen.repositories.UserProductRepository;
 import mykitchen.repositories.UserRepository;
 
 @Stateless
@@ -24,13 +28,14 @@ public class UserResource {
 	@EJB
 	private UserRepository userRepository;
 
+	@EJB
+	private UserProductRepository productRepository;
+
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public User login(@QueryParam("username") String username,
 			@QueryParam("password") String password) {
-		User user = userRepository.login(username, password);
-
-		return user;
+		return userRepository.login(username, password);
 	}
 
 	@GET
@@ -51,6 +56,26 @@ public class UserResource {
 			userRepository.add(user);
 		} else {
 			userRepository.edit(user);
+		}
+	}
+
+	@GET
+	@Path("products")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<UserProduct> getAllRecipies() {
+		return productRepository.getAll();
+	}
+
+	@PUT
+	@Path("products")
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void putProduct(JAXBElement<UserProduct> input) {
+		UserProduct product = input.getValue();
+
+		if (product.getId() == 0) {
+			productRepository.add(product);
+		} else {
+			productRepository.edit(product);
 		}
 	}
 }

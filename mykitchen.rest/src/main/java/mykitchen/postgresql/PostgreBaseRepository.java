@@ -30,7 +30,7 @@ public class PostgreBaseRepository<T> implements BaseRepository<T> {
 		@SuppressWarnings("unchecked")
 		Class<T> clazz = (Class<T>) ((ParameterizedType) (getClass()
 				.getGenericSuperclass())).getActualTypeArguments()[0];
-		
+		entityManager.getEntityManagerFactory().getCache().evictAll();
 		return entityManager.find(clazz, id);
 	}
 

@@ -1,28 +1,54 @@
 package mykitchen.postgresql;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
-import mykitchen.model.Product;
 import mykitchen.model.Recipe;
+import mykitchen.model.RecipeIngredient;
+import mykitchen.model.UserProduct;
 import mykitchen.repositories.RecipeRepository;
 
 @Stateless
-public class PostgreRecipeRepository extends PostgreBaseRepository<Recipe> implements RecipeRepository {
+public class PostgreRecipeRepository extends PostgreBaseRepository<Recipe>
+		implements RecipeRepository {
 
-	public List<Recipe> getAvailableRecipes(List<Product> products) {
-		return null;
-	}
+	public List<Recipe> getAvailableRecipes(List<UserProduct> products) {
+		List<Recipe> result = new ArrayList<>();
+		List<Recipe> allRecipes = getAll();
 
-	public List<String> getAllImages() {
-		List<String> result;
-		
-		TypedQuery<String> query = entityManager.createQuery("SELECT r.image FROM Recipe r", String.class);
-		result = query.getResultList();
-	   System.out.println(result);
+		for (Recipe recipe : allRecipes) {
+			List<RecipeIngredient> ingredients = recipe.getIngredients();
+
+			int successConter = 0;
+
+			for (RecipeIngredient ingredient : ingredients) {
+				for (UserProduct userProduct : products) {
+					if (userProduct.getProduct().getId() == ingredient
+							.getProduct().getId()
+							&& userProduct.getQuantity() >= ingredient
+									.getQuantity()) {
+						successConter++;
+						break;
+					}
+				}
+
+			}
+
+			if (successConter == ingredients.size()) {
+				result.add(recipe);
+			}
+		}
+
 		return result;
 	}
 
+	public List<String> getAllImages() {
+		TypedQuery<String> query = entityManager.createQuery(
+				"SELECT r.image FROM Recipe r", String.class);
+
+		return query.getResultList();
+	}
 }
