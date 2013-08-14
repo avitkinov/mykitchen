@@ -5,23 +5,26 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.event.ActionEvent;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import mykitchen.business.ProductBean;
 import mykitchen.business.RecipeBean;
 import mykitchen.business.UnitOfMeasureBean;
 import mykitchen.model.Product;
 import mykitchen.model.Recipe;
+import mykitchen.model.RecipeIngredient;
 import mykitchen.model.UnitOfMeasure;
 import mykitchen.web.utils.UserSessionHelper;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class RecipeManagedBean implements Serializable {
 
 	/**
@@ -49,7 +52,6 @@ public class RecipeManagedBean implements Serializable {
 	public void init() {
 		loadRecipes();
 		selectedRecipe = new Recipe();
-		System.err.println(selectedRecipe);
 	}
 
 	public Recipe getSelectedRecipe() {
@@ -70,7 +72,6 @@ public class RecipeManagedBean implements Serializable {
 
 	public void loadRecipes() {
 		recipes = recipeBean.getAllRecipes();
-		System.err.println("recipes:" + recipes);
 	}
 
 	public void addRecipe() {
@@ -85,11 +86,14 @@ public class RecipeManagedBean implements Serializable {
 	public void editRecipe() {
 		System.err.println("edit " + selectedRecipe);
 
+		uoms = unitOfMeasureBean.getAll();
+		products = productBean.getAllProducts();
+		//RequestContext.getCurrentInstance().execute("wiz.loadStep (wiz.cfg.steps [0], true)");
 		RequestContext.getCurrentInstance().execute("recipeDialog.show()");
+		//RequestContext.getCurrentInstance().execute("");
 	}
 
 	public void deleteRecipe() {
-		System.err.println("delete" + selectedRecipe);
 		recipes.remove(selectedRecipe);
 	}
 
@@ -119,4 +123,21 @@ public class RecipeManagedBean implements Serializable {
 	public void setUoms(List<UnitOfMeasure> uoms) {
 		this.uoms = uoms;
 	}
+
+	public void addIngredient() {
+		System.out.println("add ingredient");
+		selectedRecipe.getIngredients().add(new RecipeIngredient());
+	}
+	
+	public void onEdit(RowEditEvent event) {  
+        FacesMessage msg = new FacesMessage("Car Edited", ((RecipeIngredient) event.getObject()).toString());  
+  
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+    }  
+      
+    public void onCancel(RowEditEvent event) {  
+        FacesMessage msg = new FacesMessage("Car Cancelled", ((RecipeIngredient) event.getObject()).toString());  
+  
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+    }  
 }

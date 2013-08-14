@@ -30,12 +30,8 @@
 				<h:outputText value="#{product.name}" />
 			</p:column>
 
-			<p:column headerText="#{bundle.Category}">
-				<h:outputText value="#{product.category}" />
-			</p:column>
-
 			<p:column headerText="#{bundle.Description}">
-				<h:outputText value="#{recipe.description}" />
+				<h:outputText value="#{product.description}" />
 			</p:column>
 		</p:dataTable>
 
@@ -43,16 +39,20 @@
 		<p:dialog header="#{bundle.Product}" widgetVar="productDialog"
 			modal="true" dynamic="true">
 			<p:panel id="display">
+				<h:form id="form">
+					<h:panelGrid columns="2" columnClasses="label, value"
+						styleClass="grid">
+						<h:outputText value="#{bundle.Name} *" />
+						<p:inputText required="true" label="#{bundle.Name}"
+							value="#{productManagedBean.selectedProduct.name}" />
 
-				<h:outputText value="#{bundle.Name} *" />
-				<p:inputText required="true" label="#{bundle.Name}"
-					value="#{productManagedBean.selectedProduct.name}" />
-
-				<h:outputText value="#{bundle.Description} *" />
-				<p:inputText required="true" label="#{bundle.Description}"
-					value="#{productManagedBean.selectedProduct.description}" />
-				<p:commandButton value="#{bundle.Submit}"
-					action="#{productManagedBean.save}" process="@form" />
+						<h:outputText value="#{bundle.Description}" />
+						<p:inputText label="#{bundle.Description}"
+							value="#{productManagedBean.selectedProduct.description}" />
+					</h:panelGrid>
+					<p:commandButton value="#{bundle.Submit}"
+						action="#{productManagedBean.save}" process="@form" />
+				</h:form>
 			</p:panel>
 		</p:dialog>
 	</h:form>

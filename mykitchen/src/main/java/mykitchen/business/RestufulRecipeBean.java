@@ -14,52 +14,67 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 
-
 @Stateless
 public class RestufulRecipeBean implements RecipeBean {
 
 	private static final String RESTFUL_SERVER = "http://localhost:8080/mykitchen.rest";
 	private WebResource resource;
-	
+
 	@PostConstruct
-	private void init(){
+	private void init() {
 		Client client = Client.create();
 		resource = client.resource(RESTFUL_SERVER);
 	}
-	
+
 	@Override
-	public List<Recipe> getAllRecipes() {		
-		List<Recipe> response = resource.path("recipes").accept(MediaType.APPLICATION_XML).get(new GenericType<List<Recipe>>() {});
-		
+	public List<Recipe> getAllRecipes() {
+		List<Recipe> response = resource.path("recipes")
+				.accept(MediaType.APPLICATION_XML)
+				.get(new GenericType<List<Recipe>>() {
+				});
+
 		return response;
 	}
 
 	@Override
-	public Recipe getRecipe(Long id) {		
-		return resource.path("recipes").accept(MediaType.APPLICATION_XML).get(new GenericType<Recipe>(){});
+	public Recipe getRecipe(Long id) {
+		return resource.path("recipes").accept(MediaType.APPLICATION_XML)
+				.get(new GenericType<Recipe>() {
+				});
 	}
 
 	@Override
 	public int putRecipe(final Recipe recipe) {
-	    ClientResponse response = resource.path("recipes").type(MediaType.APPLICATION_XML)
-	        .put(ClientResponse.class, recipe);
-	    
-	    return response.getStatus();
+		ClientResponse response = resource.path("recipes")
+				.type(MediaType.APPLICATION_XML)
+				.put(ClientResponse.class, recipe);
+
+		return response.getStatus();
 	}
 
 	@Override
 	public List<String> getAllRecipeImages() {
-		String response = resource.path("recipes").path("images").accept(MediaType.TEXT_PLAIN).get(String.class);
-		
+		String response = resource.path("recipes").path("images")
+				.accept(MediaType.TEXT_PLAIN).get(String.class);
+
 		List<String> result = new ArrayList<String>();
-		
+
 		String[] splitedImages = response.split("!");
-		
+
 		for (String imagePath : splitedImages) {
 			result.add(imagePath);
 		}
-		
+
 		return result;
+	}
+
+	@Override
+	public List<Recipe> getAvailableRecipe(Long userId) {
+		return resource.path("recipes").path("availabe")
+				.queryParam("userId", userId.toString())
+				.accept(MediaType.APPLICATION_XML)
+				.get(new GenericType<List<Recipe>>() {
+				});
 	}
 
 }

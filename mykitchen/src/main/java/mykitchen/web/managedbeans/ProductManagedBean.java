@@ -53,7 +53,7 @@ public class ProductManagedBean implements Serializable {
 	}
 
 	public void editProduct() {
-		RequestContext.getCurrentInstance().execute("recipeDialog.show()");
+		RequestContext.getCurrentInstance().execute("productDialog.show()");
 	}
 
 	public void deleteProduct() {

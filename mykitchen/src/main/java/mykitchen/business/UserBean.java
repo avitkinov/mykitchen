@@ -11,7 +11,7 @@ import mykitchen.model.User;
  * @author Asparuh Vitkinov
  */
 @Local
-public interface SessionBean {
+public interface UserBean {
 
 	/**
 	 * Login with provided username and password.
@@ -27,5 +27,5 @@ public interface SessionBean {
 
 	boolean isExist(String userName);
 
-	void add(User user);
+	int put(User user);
 }

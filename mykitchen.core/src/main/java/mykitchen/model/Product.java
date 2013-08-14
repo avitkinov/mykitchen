@@ -1,12 +1,12 @@
 package mykitchen.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,20 +25,15 @@ public class Product implements Serializable {
 
 	private String name;
 
-	@OneToOne
-	private ProductCategory category;
-
 	private String description;
 
 	public Product() {
-		this(0L, null, new ProductCategory(), null);
+		this(0L, null, null);
 	}
 
-	public Product(Long id, String name, ProductCategory category,
-			String description) {
+	public Product(Long id, String name, String description) {
 		this.id = id;
 		this.name = name;
-		this.category = category;
 		this.description = description;
 	}
 
@@ -58,14 +53,6 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public ProductCategory getCategory() {
-		return category;
-	}
-
-	public void setCategory(ProductCategory category) {
-		this.category = category;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -75,8 +62,21 @@ public class Product implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return String.format("{Product: %d %s %s %s}", id, name, category,
-				description);
+	public int hashCode() {
+		return Arrays.hashCode(new Object[] { id, name, description });
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		if (this == obj) {
+			result = true;
+		} else if (obj instanceof Product) {
+
+			Product product = (Product) obj;
+			result = product.getId().doubleValue() == this.id.doubleValue();
+		}
+
+		return result;
 	}
 }

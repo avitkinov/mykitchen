@@ -1,6 +1,7 @@
 package mykitchen.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -126,6 +127,10 @@ public class User implements Serializable {
 	 * @return the products
 	 */
 	public List<UserProduct> getProducts() {
+		if (products == null) {
+			products = new ArrayList<UserProduct>();
+		}
+
 		return products;
 	}
 
@@ -147,8 +152,8 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("{User: %d %s %s %s %s}", id, firstName, lastName,
-				username, password);
+		return String.format(" {User: %d %s %s %s %s %s}", id, firstName,
+				lastName, username, password, products);
 	}
 
 }

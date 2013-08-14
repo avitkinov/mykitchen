@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import mykitchen.model.Product;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 
@@ -36,14 +37,16 @@ public class RestfulProductBean implements ProductBean {
 
 	@Override
 	public Product getProduct(Long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int putProduct(Product product) {
-		// TODO Auto-generated method stub
-		return 0;
+		ClientResponse response = resource.path("products")
+				.type(MediaType.APPLICATION_XML)
+				.put(ClientResponse.class, product);
+
+		return response.getStatus();
 	}
 
 }

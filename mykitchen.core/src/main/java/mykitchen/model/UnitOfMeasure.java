@@ -1,6 +1,7 @@
 package mykitchen.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ public class UnitOfMeasure implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -3599681236557348121L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -58,9 +59,23 @@ public class UnitOfMeasure implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	@Override
-	public String toString() {
-		return String.format("{UoM: %d %s %s}", id, name, description);
+	public int hashCode() {
+		return Arrays.hashCode(new Object[] { id, name, description });
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		if (this == obj) {
+			result = true;
+		} else if (obj instanceof UnitOfMeasure) {
+
+			UnitOfMeasure uom = (UnitOfMeasure) obj;
+			result = uom.getId().doubleValue() == this.id.doubleValue();
+		}
+
+		return result;
 	}
 }

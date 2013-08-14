@@ -100,4 +100,8 @@ public class UserProduct implements Serializable {
 		this.quantity = quantity;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%s %s %d", product, uom, quantity);
+	}
 }

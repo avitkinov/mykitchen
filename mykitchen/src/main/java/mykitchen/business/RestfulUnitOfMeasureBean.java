@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import mykitchen.model.UnitOfMeasure;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 
@@ -36,14 +37,15 @@ public class RestfulUnitOfMeasureBean implements UnitOfMeasureBean {
 
 	@Override
 	public UnitOfMeasure getUOM(Long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int putUOM(UnitOfMeasure uom) {
-		// TODO Auto-generated method stub
-		return 0;
+		ClientResponse response = resource.path("uom")
+				.type(MediaType.APPLICATION_XML).put(ClientResponse.class, uom);
+
+		return response.getStatus();
 	}
 
 }

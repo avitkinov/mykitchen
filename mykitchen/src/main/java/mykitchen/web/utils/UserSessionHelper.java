@@ -95,5 +95,4 @@ public class UserSessionHelper {
 				aMessage, null);
 		getCurrentFacesContextInstance().addMessage(null, tFacesMessage);
 	}
-
 }

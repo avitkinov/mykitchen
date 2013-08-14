@@ -35,6 +35,7 @@ public class Recipe implements Serializable {
 
 	@OneToMany
 	private List<RecipeIngredient> ingredients;
+	private int ingredientscount;
 
 	private String preparation;
 	private String serving;
@@ -161,10 +162,17 @@ public class Recipe implements Serializable {
 		this.serving = serving;
 	}
 
+	public int getIngredientscount() {
+		return ingredientscount;
+	}
+
+	public void setIngredientscount(int ingredientscount) {
+		this.ingredientscount = ingredientscount;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("{Recipe: %d %s %s %s %s %s %s}", id, title,
-				recipeinfo, ingredients, preparation, serving, image);
+		return title;
 	}
 
 }

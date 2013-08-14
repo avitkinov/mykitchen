@@ -8,123 +8,154 @@
 	<ui:define name="title">#{bundle.IndexTitle}</ui:define>
 
 	<ui:define name="content">
-		<h:form id="products-form">
-		<!-- <p:contextMenu for="productsTable">
-			<p:menuitem value="Add" update="display" icon="ui-icon-plus"
-				actionListener="#{recipeManagedBean.addRecipe}"
-				oncomplete="recipeDialog.show()" />
-			<p:menuitem value="Edit" update="display" icon="ui-icon-pencil"
-				actionListener="#{recipeManagedBean.editRecipe}"
-				oncomplete="recipeDialog.show()" />
-			<p:menuitem value="Delete" update="recipeTable" icon="ui-icon-close"
-				actionListener="#{recipeManagedBean.deleteRecipe}" />
-		</p:contextMenu>-->
+		<p:accordionPanel dynamic="true" cache="true">
+			<p:tab title="#{bundle.Product}">
+				<h:form id="product-form">
+					<p:growl id="messages" showDetail="true" />
 
-		<p:dataTable id="productsTable" var="product"
-			value="#{recipeManagedBean.recipes}" rowKey="#{recipe.id}"
-			selection="#{recipeManagedBean.selectedRecipe}"
-			selectionMode="single" paginator="true"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			rowsPerPageTemplate="9, 12, 15">
+					<p:commandButton value="#{bundle.Add}" update="productTable"
+						icon="ui-icon-plus"
+						actionListener="#{myKitchenManagedBean.addProduct}"
+						process="@this" />
 
-			<p:column headerText="Title">
-				<h:outputText value="#{recipe.title}" />
-			</p:column>
+					<p:dataTable var="userproduct"
+						value="#{myKitchenManagedBean.loggedUser.products}"
+						id="productTable" paginator="true"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="9, 12, 15" editable="true">
 
-			<p:column headerText="Image">
-				<h:outputText value="#{recipe.image}" />
-			</p:column>
+						<p:ajax event="rowEdit" listener="#{myKitchenManagedBean.onEdit}" />
+						<p:ajax event="rowEditCancel"
+							listener="#{myKitchenManagedBean.onCancel}" />
 
-		</p:dataTable>
+						<p:column headerText="#{bundle.Product}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{userproduct.product.name}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectOneMenu value="#{userproduct.product}">
+										<f:selectItems value="#{myKitchenManagedBean.products}"
+											var="product" itemLabel="#{product.name}"
+											itemValue="#{product}" />
+									</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
+						<p:column headerText="#{bundle.UnitOfMeasure}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{userproduct.uom.name}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectOneMenu value="#{userproduct.uom}">
+										<f:selectItems value="#{myKitchenManagedBean.uoms}" var="uom"
+											itemLabel="#{uom.name}" itemValue="#{uom}" />
+									</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
-		<p:dialog header="Recipe" widgetVar="recipeDialog" modal="true"
-			dynamic="true">
+						<p:column headerText="#{bundle.Quantity}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{userproduct.quantity}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{userproduct.quantity}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
-			<p:panel id="display">
-				<p:wizard flowListener="#{recipeManagedBean.onFlowProcess}">
+						<p:column style="width:6%">
+							<p:rowEditor />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+			<p:tab title="#{bundle.AvailableRecipes}">
+				<h:form id="recipe-form">
+					<p:commandButton value="#{bundle.Search}" icon="ui-icon-plus"
+						actionListener="#{myKitchenManagedBean.loadAvailableRecipes}"
+						update="availableRecipesTable" />
+						
+					<p:dataGrid var="recipe"
+						value="#{myKitchenManagedBean.availableRecipes}" columns="2"
+						rows="12" paginator="true" id="availableRecipesTable"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="9, 12, 15">
 
-					<p:tab id="main" title="Main">
+						<f:facet name="header">  
+          			  		#{bundle.AllRecipes}  
+       			 		</f:facet>
 
-						<p:panel header="Recipe Details">
+						<p:panel header="#{recipe.title}" style="text-align:center">
+							<h:panelGrid columns="1" style="width:100%">
+								<p:graphicImage value="#{recipe.image}" width="300" />
 
-							<p:messages errorClass="error" />
-
-							<p:panelGrid columns="2" columnClasses="label, value"
-								styleClass="grid">
-								<h:outputText value="Title: *" />
-								<p:inputText required="true" label="Title"
-									value="#{recipeManagedBean.selectedRecipe.title}" />
-
-								<h:outputText value="Image: *" />
-								<p:inputText required="true" label="Image"
-									value="#{recipeManagedBean.selectedRecipe.image}" />
-							</p:panelGrid>
+								<p:commandLink id="recipe-details" value="#{bundle.ViewDetails}"
+									update=":recipe-dialog-form:recipeDialog"
+									oncomplete="recipeDialog.show()" title="#{bundle.ViewDetails}">
+									<h:outputText styleClass="ui-icon ui-icon-search"
+										style="margin:0 auto;" />
+									<f:setPropertyActionListener value="#{recipe}"
+										target="#{myKitchenManagedBean.selectedRecipe}" />
+								</p:commandLink>
+							</h:panelGrid>
 						</p:panel>
-					</p:tab>
+					</p:dataGrid>
+				</h:form>
 
-					<p:tab id="ingredients" title="Ingredients">
-						<p:panel header="Ingredients Details">
+				<h:form id="recipe-dialog-form">
+					<p:dialog showEffect="clip" hideEffect="clip"
+						header="#{bundle.Recipe} #{recipeManagedBean.selectedRecipe.title}"
+						widgetVar="recipeDialog" modal="true" resizable="false" id="recipeDialog">
+						<p:outputPanel id="recipeDetail" style="text-align:center;"
+							layout="block">
 
-							<p:messages errorClass="error" />
+							<p:scrollPanel
+								header="Recipe #{myKitchenManagedBean.selectedRecipe.title}">
 
-							<p:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Ingredients " />
-								<p:dataTable var="ingredient"
-									value="#{recipeManagedBean.selectedRecipe.ingredients}"
-									rowKer="ingredient.id">
-									<p:column headerText="Product">
+								<h:panelGrid columns="2">
+									<p:graphicImage
+										value="#{myKitchenManagedBean.selectedRecipe.image}"
+										height="250" />
+
+
+									<p:dataGrid
+										value="#{myKitchenManagedBean.selectedRecipe.ingredients}"
+										var="ingredient" columns="1">
+										<f:facet name="header">  
+          			  						#{bundle.NecessaryProducts} 
+       			 						</f:facet>
+
+										<h:outputText
+											value="#{ingredient.quantity} #{ingredient.uom.name} "
+											rendered="#{ingredient.quantity > 0}" />
 										<h:outputText value="#{ingredient.product.name}" />
-									</p:column>
+									</p:dataGrid>
 
-									<p:column headerText="Quantity">
-										<h:outputText value="#{ingredient.quantity}" />
-									</p:column>
+								</h:panelGrid>
 
-									<p:column headerText="UnitOfMeasure">
-										<h:outputText value="#{ingredient.uom.name}" />
-									</p:column>
-								</p:dataTable>
-							</p:panelGrid>
-						</p:panel>
-					</p:tab>
+								<h:panelGrid columns="2" columnClasses="label, value">
+									<h:outputText value="#{bundle.Preparation}" />
+									<p:inputTextarea
+										value="#{myKitchenManagedBean.selectedRecipe.preparation}"
+										rows="7" cols="65" readonly="true" />
 
-					<p:tab id="preparation" title="Preparation">
-						<p:panel header="Preparation Information">
+									<h:outputText value="#{bundle.Serving}" />
+									<p:inputTextarea
+										value="#{myKitchenManagedBean.selectedRecipe.serving}"
+										rows="2" cols="65" readonly="true" />
+								</h:panelGrid>
 
-							<p:messages errorClass="error" />
-
-							<p:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Preparation: *" />
-								<p:editor id="preparation_editor"
-									value="#{recipeManagedBean.selectedRecipe.preparation}"
-									required="true" />
-							</p:panelGrid>
-						</p:panel>
-					</p:tab>
-					<p:tab id="serving" title="Serving">
-						<p:panel header="Serving Information">
-
-							<p:messages errorClass="error" />
-
-							<p:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Serving: *" />
-								<p:editor id="serving_editor"
-									value="#{recipeManagedBean.selectedRecipe.serving}"
-									required="true" />
-							</p:panelGrid>
-						</p:panel>
-					</p:tab>
-					<p:tab id="confirm" title="Confirmation">
-						<ui:include src="/recipe_details_panel.xhtml" />
-
-						<p:commandButton value="Submit"
-							actionListener="#{recipeManagedBean.save}" ajax="true" />
-					</p:tab>
-				</p:wizard>
-			</p:panel>
-		</p:dialog>
-	</h:form>
+							</p:scrollPanel>
+						</p:outputPanel>
+					</p:dialog>
+				</h:form>
+			</p:tab>
+		</p:accordionPanel>
 	</ui:define>
 
 

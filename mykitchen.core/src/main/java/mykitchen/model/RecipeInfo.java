@@ -133,9 +133,4 @@ public class RecipeInfo implements Serializable {
 	public void setPreptime(String preptime) {
 		this.preptime = preptime;
 	}
-
-//	@Override
-//	public String toString() {
-//		return String.format("{RecipeInfo: %d %s %s %s %s %s}", id, blurb, genre, autor, yield, preptime);
-//	}
 }

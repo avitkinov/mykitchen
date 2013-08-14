@@ -16,7 +16,7 @@ import com.sun.jersey.api.client.WebResource;
  * @author Asparuh Vitkinov
  */
 @Stateless
-public class RestfulSessionBean implements SessionBean {
+public class RestfulUserBean implements UserBean {
 
 	private static final String RESTFUL_SERVER = "http://localhost:8080/mykitchen.rest";
 	private WebResource resource;
@@ -52,15 +52,16 @@ public class RestfulSessionBean implements SessionBean {
 
 		String response = webResource.accept(MediaType.TEXT_PLAIN).get(
 				String.class);
-		System.err.println(userName + response);
+
 		return response.toLowerCase().equals("true");
 	}
 
 	@Override
-	public void add(final User user) {
+	public int put(final User user) {
 		ClientResponse response = resource.path("users")
 				.type(MediaType.APPLICATION_XML)
 				.put(ClientResponse.class, user);
-		System.out.println(response.getStatus());
+
+		return response.getStatus();
 	}
 }

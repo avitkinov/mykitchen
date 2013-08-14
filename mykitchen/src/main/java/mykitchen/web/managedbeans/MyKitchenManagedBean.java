@@ -5,17 +5,27 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.event.ActionEvent;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import mykitchen.business.ProductBean;
 import mykitchen.business.RecipeBean;
+import mykitchen.business.UnitOfMeasureBean;
+import mykitchen.business.UserBean;
+import mykitchen.model.Product;
 import mykitchen.model.Recipe;
+import mykitchen.model.UnitOfMeasure;
+import mykitchen.model.User;
+import mykitchen.model.UserProduct;
+import mykitchen.web.utils.UserSessionHelper;
 
-import org.primefaces.event.FlowEvent;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class MyKitchenManagedBean implements Serializable {
 
 	/**
@@ -23,18 +33,85 @@ public class MyKitchenManagedBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<Recipe> recipes;
+	private User loggedUser;
+
+	private List<Product> products;
+
+	private List<UnitOfMeasure> uoms;
+
+	private List<Recipe> availableRecipes;
 
 	private Recipe selectedRecipe;
 
+	@EJB
+	private UserBean userBean;
+	@EJB
+	private ProductBean productBean;
+	@EJB
+	private UnitOfMeasureBean unitOfMeasureBean;
 	@EJB
 	private RecipeBean recipeBean;
 
 	@PostConstruct
 	public void init() {
-		loadRecipes();
-		selectedRecipe = new Recipe();
-		System.err.println(selectedRecipe);
+		loggedUser = UserSessionHelper.getUser();
+		loadEntities();
+	}
+
+	public void loadEntities() {
+		products = productBean.getAllProducts();
+		uoms = unitOfMeasureBean.getAll();
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public List<UnitOfMeasure> getUoms() {
+		return uoms;
+	}
+
+	public void addProduct() {
+		loggedUser.getProducts().add(new UserProduct());
+		// selectedProduct = new UserProduct();
+		// RequestContext.getCurrentInstance().execute("productDialog.show()");
+	}
+
+	public void editProduct() {
+		loadEntities();
+
+		RequestContext.getCurrentInstance().execute("productDialog.show()");
+	}
+
+	public void save() {
+
+	}
+
+	public User getLoggedUser() {
+		return loggedUser;
+	}
+
+	public void loadAvailableRecipes() {
+		availableRecipes = recipeBean.getAvailableRecipe(loggedUser.getId());
+		
+	}
+
+	public void onEdit(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Car Edited",
+				((UserProduct) event.getObject()).getProduct().getName());
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onCancel(RowEditEvent event) {
+		FacesMessage msg = new FacesMessage("Car Cancelled",
+				((UserProduct) event.getObject()).getProduct().getName());
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public List<Recipe> getAvailableRecipes() {
+		return availableRecipes;
 	}
 
 	public Recipe getSelectedRecipe() {
@@ -42,43 +119,7 @@ public class MyKitchenManagedBean implements Serializable {
 	}
 
 	public void setSelectedRecipe(Recipe selectedRecipe) {
-		System.err.println("Set selected recipe" + selectedRecipe);
 		this.selectedRecipe = selectedRecipe;
 	}
 
-	public List<Recipe> getRecipes() {
-		return recipes;
-	}
-
-	public String onFlowProcess(FlowEvent event) {
-		System.out.println("*****" + selectedRecipe);
-		return event.getNewStep();
-	}
-
-	public void loadRecipes() {
-		recipes = recipeBean.getAllRecipes();
-		System.err.println("recipes:" + recipes);
-	}
-
-	public void addRecipe() {
-		selectedRecipe = new Recipe();
-		System.err.println("add" + selectedRecipe);
-	}
-
-	public void editRecipe() {
-		System.err.println("edit " + selectedRecipe);
-	}
-
-	public void deleteRecipe() {
-		System.err.println("delete" + selectedRecipe);
-		recipes.remove(selectedRecipe);
-	}
-
-	public void save(ActionEvent actionEvent) {
-		System.out.println("save");
-		System.out.println("Selected recipe" + selectedRecipe);
-		recipeBean.putRecipe(selectedRecipe);
-		
-		loadRecipes();
-	}
 }

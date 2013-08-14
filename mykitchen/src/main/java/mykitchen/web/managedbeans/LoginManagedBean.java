@@ -1,6 +1,7 @@
 package mykitchen.web.managedbeans;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -8,7 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import mykitchen.business.SessionBean;
+import mykitchen.business.UserBean;
 import mykitchen.model.User;
 import mykitchen.util.NavigationPage;
 import mykitchen.web.utils.UserSessionHelper;
@@ -32,7 +33,7 @@ public class LoginManagedBean implements Serializable {
 
 	/** Session service. */
 	@EJB
-	private SessionBean sessionService;
+	private UserBean sessionService;
 
 	/** Initialize container with messages. */
 	@PostConstruct
@@ -74,12 +75,13 @@ public class LoginManagedBean implements Serializable {
 	public String login() {
 		String tRedirectPage = null;
 		User user = sessionService.login(this.user.getUsername(),
-				this.user.getPassword());
+				encryptMD5(this.user.getPassword()));
 
 		if (user.getId() > 0) {
 			UserSessionHelper.setUser(user);
 			setUser(user);
 			setLogged(true);
+
 			tRedirectPage = NavigationPage.INDEX.value();
 		} else {
 			UserSessionHelper.addFacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -110,10 +112,41 @@ public class LoginManagedBean implements Serializable {
 					"Username exist");
 			redirectPage = null;
 		} else {
-			sessionService.add(user);
+			String plainPassword = user.getPassword();
+			String encryptedPassword = encryptMD5(plainPassword);
+			user.setPassword(encryptedPassword);
+
+			sessionService.put(user);
 			redirectPage = NavigationPage.LOGIN.value();
 		}
 
 		return redirectPage;
+	}
+
+	/**
+	 * Encrypt given string with MD5 algorithm.
+	 * 
+	 * @param value
+	 *            the string to encrypt
+	 * @return MD5 encrypted string
+	 */
+	private String encryptMD5(final String value) {
+		String result = "";
+
+		try {
+			MessageDigest digest = MessageDigest.getInstance("MD5");
+			byte[] array = digest.digest(value.getBytes());
+			StringBuffer resultBuffer = new StringBuffer();
+			for (byte character : array) {
+				resultBuffer.append(Integer.toHexString(
+						(character & 0xFF) | 0x100).substring(1, 3));
+			}
+
+			result = resultBuffer.toString();
+		} catch (java.security.NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 }

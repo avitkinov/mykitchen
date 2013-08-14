@@ -10,7 +10,7 @@
 	<ui:define name="content">
 		<h:form id="recipe-form">
 			<p:dataGrid var="recipe" value="#{recipeManagedBean.recipes}"
-				columns="3" rows="12" paginator="true"
+				columns="2" rows="12" paginator="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="9, 12, 15">
 
@@ -20,7 +20,7 @@
 
 				<p:panel header="#{recipe.title}" style="text-align:center">
 					<h:panelGrid columns="1" style="width:100%">
-						<p:graphicImage value="#{recipe.image}" />
+						<p:graphicImage value="#{recipe.image}" width="300"/>
 
 						<p:commandLink
 						id="recipe-details"
@@ -35,7 +35,6 @@
 						</p:commandLink>
 					</h:panelGrid>
 				</p:panel>
-
 			</p:dataGrid>
 		</h:form>
 		

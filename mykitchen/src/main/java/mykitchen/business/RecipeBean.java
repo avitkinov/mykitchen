@@ -13,4 +13,6 @@ public interface RecipeBean {
 	int putRecipe(Recipe recipe);
 
 	List<String> getAllRecipeImages();
+	
+	List<Recipe> getAvailableRecipe(Long userId);
 }

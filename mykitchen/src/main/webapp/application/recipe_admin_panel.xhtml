@@ -6,16 +6,16 @@
 
 	<h:form id="recipe-form">
 		<p:commandButton value="#{bundle.Add}" update="display"
-			icon="ui-icon-plus" actionListener="#{recipeManagedBean.addRecipe}" />
+			icon="ui-icon-plus" actionListener="#{recipeManagedBean.addRecipe}" process="@form"/>
 		<p:commandButton value="#{bundle.Refresh}" update="recipeTable"
 			icon="ui-icon-refresh"
 			actionListener="#{recipeManagedBean.loadRecipes}" />
 		<p:contextMenu for="recipeTable">
 			<p:menuitem value="#{bundle.Edit}" update="display"
-				icon="ui-icon-pencil"
+				icon="ui-icon-pencil"  process="@form"
 				actionListener="#{recipeManagedBean.editRecipe}" />
 			<p:menuitem value="#{bundle.Delete}" update="recipeTable"
-				icon="ui-icon-close"
+				icon="ui-icon-close" process="@form"
 				actionListener="#{recipeManagedBean.deleteRecipe}" />
 		</p:contextMenu>
 
@@ -38,17 +38,12 @@
 
 
 		<p:dialog header="#{bundle.Recipe}" widgetVar="recipeDialog"
-			modal="true" dynamic="true">
+			modal="true" dynamic="true" id="recipeDialog">
 			<p:panel id="display">
-				<h:form id="form">
-					<p:wizard flowListener="#{recipeManagedBean.onFlowProcess}">
-
+				<p:wizard flowListener="#{recipeManagedBean.onFlowProcess}" id="wizard" widgetVar="wizard">
 						<p:tab id="main" title="Main">
-
 							<p:panel header="#{bundle.RecipeDetails}">
-
 								<p:messages errorClass="error" />
-
 								<p:panelGrid columns="2" columnClasses="label, value"
 									styleClass="grid">
 									<h:outputText value="#{bundle.Title} *" />
@@ -63,67 +58,69 @@
 						</p:tab>
 
 						<p:tab id="ingredients" title="#{bundle.Ingredients}">
-							<!-- <p:panel header="#{bundle.IngredientsDetails}">
+							<p:messages errorClass="error" />
+							<p:commandButton value="#{bundle.Add}" icon="ui-icon-plus"
+								action="#{recipeManagedBean.addIngredient()}"
+								 process="@this" update="ingredientsTable"
+								 />
+							<p:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="#{bundle.Ingredients}" />
+								<p:dataTable var="ingredient"
+									value="#{recipeManagedBean.selectedRecipe.ingredients}"
+									id="ingredientsTable" editable="true">
 
-								<p:messages errorClass="error" />
+									<f:facet name="header">
+											#{bundle.IngredientsDetails}
+									</f:facet>
 
-								<p:panelGrid columns="2" columnClasses="label, value">
-									<h:outputText value="#{bundle.Ingredients}" />
-									<p:dataTable var="ingredient"
-										value="#{recipeManagedBean.selectedRecipe.ingredients}"
-										id="ingredientsTable" editable="true">
+  							 <p:ajax event="rowEdit" listener="#{recipeManagedBean.onEdit}" />  
+        <p:ajax event="rowEditCancel" listener="#{recipeManagedBean.onCancel}"  />
 
-										<p:ajax event="rowEdit" listener="#{tableBean.onEdit}"
-											update=":form:messages" />
-										<p:ajax event="rowEditCancel" listener="#{tableBean.onCancel}"
-											update=":form:messages" />
+									<p:column headerText="#{bundle.Product}">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{ingredient.product.name}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:selectOneMenu value="#{ingredient.product}">
+													<f:selectItems value="#{recipeManagedBean.products}"
+														var="product" itemLabel="#{product.name}"
+														itemValue="#{product}" />
+												</h:selectOneMenu>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
 
-										<p:column headerText="#{bundle.Product}">
-											<p:cellEditor>
-												<f:facet name="output">
-													<h:outputText value="#{ingredient.product.name}" />
-												</f:facet>
-												<f:facet name="input">
-													<h:selectOneMenu value="#{recipeManagedBean.selectedRecipe.product}">
-														<f:selectItems value="#{recipeManagedBean.products}"
-															var="product" itemLabel="#{product.name}" itemValue="#{product}" />
-													</h:selectOneMenu>
-												</f:facet>
-											</p:cellEditor>
-										</p:column>
+									<p:column headerText="#{bundle.Quantity}">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{ingredient.quantity}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{ingredient.quantity}"
+													style="width:100%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
 
-										<p:column headerText="#{bundle.Quantity}">
-											<p:cellEditor>
-												<f:facet name="output">
-													<h:outputText value="#{ingredient.quantity}" />
-												</f:facet>
-												<f:facet name="input">
-													<p:inputText value="#{ingredient.quantity}"
-														style="width:100%" />
-												</f:facet>
-											</p:cellEditor>
-										</p:column>
-
-										<p:column headerText="#{bundle.UnitOfMeasure}">
-											<h:outputText value="#{ingredient.uom.name}" />
-										</p:column>
-										
-										<p:column headerText="#{bundle.UnitOfMeasure}">
-											<p:cellEditor>
-												<f:facet name="output">
-													<h:outputText value="#{ingredient.uom.name}" />
-												</f:facet>
-												<f:facet name="input">
-													<h:selectOneMenu value="#{recipeManagedBean.selectedRecipe.product}">
-														<f:selectItems value="#{recipeManagedBean.products}"
-															var="product" itemLabel="#{product.name}" itemValue="#{product}" />
-													</h:selectOneMenu>
-												</f:facet>
-											</p:cellEditor>
-										</p:column>
-									</p:dataTable>
-								</p:panelGrid>
-							</p:panel>-->
+									<p:column headerText="#{bundle.UnitOfMeasure}">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{ingredient.uom.name}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:selectOneMenu value="#{ingredient.uom}">
+													<f:selectItems value="#{recipeManagedBean.uoms}" var="uom"
+														itemLabel="#{uom.name}" itemValue="#{uom}" />
+												</h:selectOneMenu>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column style="width:6%">
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+							</p:panelGrid>
 						</p:tab>
 
 						<p:tab id="preparation" title="#{bundle.Preparation}">
@@ -159,8 +156,10 @@
 								action="#{recipeManagedBean.save}" process="@form" />
 						</p:tab>
 					</p:wizard>
-				</h:form>
+				
 			</p:panel>
 		</p:dialog>
+		
+	
 	</h:form>
 </ui:composition>
