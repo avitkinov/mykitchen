@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="uom-form">
+		<p:commandButton value="#{bundle.Add}" update="display"
+			icon="ui-icon-plus"
+			actionListener="#{unitOfMeassureManagedBean.addUOM}" />
+		<p:commandButton value="#{bundle.Refresh}" update="uomTable"
+			icon="ui-icon-refresh"
+			actionListener="#{unitOfMeassureManagedBean.loadUOM}" />
+		<p:contextMenu for="uomTable">
+			<p:menuitem value="#{bundle.Edit}" update="display"
+				icon="ui-icon-pencil"
+				actionListener="#{unitOfMeassureManagedBean.editUOM}" />
+			<p:menuitem value="#{bundle.Delete}" update="uomTable"
+				icon="ui-icon-close"
+				actionListener="#{unitOfMeassureManagedBean.deleteUOM}" />
+		</p:contextMenu>
+
+		<p:dataTable id="uomTable" var="uom"
+			value="#{unitOfMeassureManagedBean.uoms}" rowKey="#{uom.id}"
+			selection="#{unitOfMeassureManagedBean.selectedUOM}"
+			selectionMode="single" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="9, 12, 15">
+
+			<p:column headerText="#{bundle.Name}">
+				<h:outputText value="#{uom.name}" />
+			</p:column>
+
+			<p:column headerText="#{bundle.Description}">
+				<h:outputText value="#{uom.description}" />
+			</p:column>
+		</p:dataTable>
+
+
+		<p:dialog header="#{bundle.UnitOfMeassure}" widgetVar="uomDialog"
+			modal="true" dynamic="true">
+			<p:panel id="display">
+				<h:form id="form">
+					<h:panelGrid columns="2" columnClasses="label, value"
+						styleClass="grid">
+						<h:outputText value="#{bundle.Name} *" />
+						<p:inputText required="true" label="#{bundle.Name}"
+							value="#{unitOfMeassureManagedBean.selectedUOM.name}" />
+
+						<h:outputText value="#{bundle.Description} *" />
+						<p:inputText required="true" label="#{bundle.Description}"
+							value="#{unitOfMeassureManagedBean.selectedUOM.description}" />
+					</h:panelGrid>
+					<p:commandButton value="#{bundle.Submit}"
+						action="#{unitOfMeassureManagedBean.save}" process="@form" />
+				</h:form>
+			</p:panel>
+		</p:dialog>
+	</h:form>
+</ui:composition>
