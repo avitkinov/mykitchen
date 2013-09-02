@@ -11,7 +11,7 @@
 			<f:facet name="header">
 				<h:outputText value="#{bundle.Login}" />
 			</f:facet>
-			<p:messages id="messages" showDetail="true" autoUpdate="true" />
+			<p:messages id="messages" autoUpdate="true" />
 			<div>
 				<p:messages layout="list" />
 			</div>
@@ -19,7 +19,7 @@
 			<h:panelGrid columns="2">
 				<h:outputLabel value="#{bundle.Username}:" for="username" />
 				<h:inputText id="username" label="#{bundle.Username}"
-					value="#{loginManagedBean.user.username}" styleClass="inputbox"
+					value="#{loginManagedBean.user.username}" styleClass="inputbox" 
 					required="true" />
 
 				<h:outputLabel value="#{bundle.Password}:" for="password" />

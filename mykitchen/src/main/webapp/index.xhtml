@@ -8,18 +8,15 @@
 	<ui:define name="title">#{bundle.IndexTitle}</ui:define>
 
 	<ui:define name="content">
-		<div class="body">
-
-			<div>
-				<!-- <p:imageSwitch effect="fade">
-					<ui:repeat value="#{galleriaManagedBean.imagesPath}" var="image">
-						<p:graphicImage value="#{image}" />
-					</ui:repeat>
-				</p:imageSwitch>-->
-				<h:link outcome="index">
-					<h:graphicImage value="/resources/images/turkey.jpg" />
-				</h:link>
-			</div>
+		<div>
+			<!-- <p:imageSwitch effect="fade">
+				<ui:repeat value="#{galleriaManagedBean.imagesPath}" var="image">
+					<p:graphicImage value="#{image}" />
+				</ui:repeat>
+			</p:imageSwitch>-->
+			<h:link outcome="index">
+				<h:graphicImage value="/resources/images/turkey.jpg" />
+			</h:link>
 		</div>
 	</ui:define>
 

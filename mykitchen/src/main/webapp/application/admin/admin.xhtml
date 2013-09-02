@@ -4,7 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-
+	<f:view beforePhase="#{adminManagedBean.navigate}" />
+	
 	<ui:define name="title">#{bundle.IndexTitle}</ui:define>
 
 	<ui:define name="content">
@@ -19,14 +20,6 @@
 			</p:tab>
 			<p:tab title="Unit of Meassure">
 				<ui:include src="uom_admin_panel.xhtml" />
-			</p:tab>
-			<p:tab title="Users">
-				<h:panelGrid columns="2" cellpadding="10">
-					<p:graphicImage value="/images/godfather/godfather3.jpg" />
-					<h:outputText
-						value="After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family.   
-                Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate." />
-				</h:panelGrid>
 			</p:tab>
 		</p:tabView>
 	</ui:define>

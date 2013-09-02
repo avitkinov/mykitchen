@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel>
+		<h:form>
+			<p:messages id="messages" autoUpdate="true" />
+			<h:panelGrid columns="2" id="regGrid">
+				<h:outputLabel value="#{bundle.Username}:*" for="username" />
+				<h:inputText id="username" label="#{bundle.Username}"
+					value="#{loginManagedBean.user.username}" styleClass="inputbox"
+					required="true" />
+
+				<h:outputLabel value="#{bundle.Password}:*" for="password" />
+				<p:password id="password" value="#{loginManagedBean.user.password}"
+					styleClass="inputbox" required="true" feedback="true" label="#{bundle.Password}"
+					match="passwordagain" />
+
+				<h:outputLabel value="#{bundle.Password}:*" for="passwordagain" />
+				<p:password id="passwordagain"
+					value="#{loginManagedBean.passwordagain}" styleClass="inputbox"
+					required="true" label="#{bundle.Password}"/>
+
+				<h:outputLabel value="#{bundle.FirstName}:*" for="firstname" />
+				<h:inputText id="firstname" label="#{bundle.FirstName}"
+					value="#{loginManagedBean.user.firstName}" styleClass="inputbox"
+					required="true" />
+
+				<h:outputLabel value="#{bundle.LastName}:*" for="lastname" />
+				<h:inputText id="lastname" label="#{bundle.LastName}"
+					value="#{loginManagedBean.user.lastName}" styleClass="inputbox"
+					required="true" />
+
+				<h:outputLabel />
+				<p:commandButton value="#{bundle.Register}" update="regGrid"
+					action="#{loginManagedBean.register}" styleClass="button" />
+			</h:panelGrid>
+		</h:form>
+	</p:panel>
+</ui:composition>

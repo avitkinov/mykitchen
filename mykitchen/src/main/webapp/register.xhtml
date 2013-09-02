@@ -1,45 +1,30 @@
-<ui:composition template="/WEB-INF/templates/basic_template.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 
-	<ui:define name="title">#{bundle.RegisterTitle}</ui:define>
+<h:head>
+	<title>#{bundle.RegisterTitle}</title>
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</h:head>
 
-	<ui:define name="content">
-		<h:form>
-			<p:messages id="messages" autoUpdate="true" />
-			<h:panelGrid columns="2" id="regGrid">
-				<h:outputLabel value="#{bundle.Username}:*" for="username" />
-				<h:inputText id="username" label="#{bundle.Username}"
-					value="#{loginManagedBean.user.username}" styleClass="inputbox"
-					required="true" />
+<h:body>
+<div class="header">
+		<ui:insert name="header">
+			<ui:include src="/WEB-INF/templates/header.xhtml" />
+		</ui:insert>
+		<ui:insert name="menu">
+				<ui:include src="/WEB-INF/templates/menu.xhtml" />
+		</ui:insert>
+	</div>
 
-				<h:outputLabel value="#{bundle.Password}:*" for="password" />
-				<p:password id="password" value="#{loginManagedBean.user.password}"
-					styleClass="inputbox" required="true" feedback="true"
-					match="passwordagain" />
-
-				<h:outputLabel value="#{bundle.Password}:*" for="passwordagain" />
-				<p:password id="passwordagain"
-					value="#{loginManagedBean.passwordagain}" styleClass="inputbox"
-					required="true" />
-
-				<h:outputLabel value="#{bundle.FirstName}:*" for="firstname" />
-				<h:inputText id="firstname" label="#{bundle.FirstName}"
-					value="#{loginManagedBean.user.firstName}" styleClass="inputbox"
-					required="true" />
-
-				<h:outputLabel value="#{bundle.LastName}:*" for="lastname" />
-				<h:inputText id="lastname" label="#{bundle.LastName}"
-					value="#{loginManagedBean.user.lastName}" styleClass="inputbox"
-					required="true" />
-
-				<h:outputLabel />
-				<p:commandButton value="#{bundle.Register}" update="regGrid"
-					action="#{loginManagedBean.register}" styleClass="button" />
-			</h:panelGrid>
-		</h:form>
-	</ui:define>
-</ui:composition>
+	<div class="content">
+		<div align="center">
+			<ui:include src="/register_form.xhtml" />
+		</div>
+	</div>
+</h:body>
+</html>

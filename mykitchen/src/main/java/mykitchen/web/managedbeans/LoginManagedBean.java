@@ -2,12 +2,14 @@ package mykitchen.web.managedbeans;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import mykitchen.business.UserBean;
 import mykitchen.model.User;
@@ -30,7 +32,7 @@ public class LoginManagedBean implements Serializable {
 	private String passwordagain;
 
 	private boolean logged;
-
+	
 	/** Session service. */
 	@EJB
 	private UserBean sessionService;
@@ -38,7 +40,6 @@ public class LoginManagedBean implements Serializable {
 	/** Initialize container with messages. */
 	@PostConstruct
 	public void init() {
-		System.out.println("LoginManagedBean is initialized");
 	}
 
 	public User getUser() {
@@ -84,8 +85,9 @@ public class LoginManagedBean implements Serializable {
 
 			tRedirectPage = NavigationPage.INDEX.value();
 		} else {
-			UserSessionHelper.addFacesMessage(FacesMessage.SEVERITY_ERROR,
-					"login failed");
+			FacesContext context = FacesContext.getCurrentInstance();
+			String message = context.getApplication().evaluateExpressionGet(context, "#{bundle['LoginFailed']}", String.class);
+			UserSessionHelper.addFacesMessage(FacesMessage.SEVERITY_ERROR, message);
 		}
 
 		return tRedirectPage;

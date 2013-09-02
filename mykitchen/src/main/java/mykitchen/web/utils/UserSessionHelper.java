@@ -1,5 +1,6 @@
 package mykitchen.web.utils;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -94,5 +95,10 @@ public class UserSessionHelper {
 		FacesMessage tFacesMessage = new FacesMessage(aFacesMessageSeverity,
 				aMessage, null);
 		getCurrentFacesContextInstance().addMessage(null, tFacesMessage);
+	}
+	
+	public static void redirect(final String outcome) throws IOException {
+		FacesContext context = getCurrentFacesContextInstance();
+		context.getApplication().getNavigationHandler().handleNavigation(context, null, outcome);
 	}
 }

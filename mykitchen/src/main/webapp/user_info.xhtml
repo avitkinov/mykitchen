@@ -3,14 +3,18 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui">
 
 	<div class="login_row">
+	<p:panel header="#{bundle.Username}: #{loginManagedBean.user.username}">
 		<h:outputLabel value="Здравей, #{loginManagedBean.user.firstName} #{loginManagedBean.user.lastName}" />
 		<br />
-		<h:link value="Admin" outcome="admin" rendered="#{loginManagedBean.user.admin == true}"/>
+		<h:link value="Admin panel" outcome="admin" rendered="#{loginManagedBean.user.admin == true}"/>
 		<br />
 		<h:commandButton value="Изход" action="#{loginManagedBean.logout()}"
 			styleClass="login_row_margin" />
+	</p:panel>
 	</div>
+
 </ui:composition>

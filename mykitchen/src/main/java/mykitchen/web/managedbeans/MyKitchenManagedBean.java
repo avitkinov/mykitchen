@@ -19,6 +19,7 @@ import mykitchen.model.Recipe;
 import mykitchen.model.UnitOfMeasure;
 import mykitchen.model.User;
 import mykitchen.model.UserProduct;
+import mykitchen.web.converter.ProductConverter;
 import mykitchen.web.utils.UserSessionHelper;
 
 import org.primefaces.context.RequestContext;
@@ -51,13 +52,20 @@ public class MyKitchenManagedBean implements Serializable {
 	private UnitOfMeasureBean unitOfMeasureBean;
 	@EJB
 	private RecipeBean recipeBean;
+	
+	private ProductConverter productConverter;
 
 	@PostConstruct
 	public void init() {
 		loggedUser = UserSessionHelper.getUser();
 		loadEntities();
+		productConverter = new ProductConverter();
 	}
 
+	public ProductConverter getProductConverter() {
+		return productConverter;
+	}
+	
 	public void loadEntities() {
 		products = productBean.getAllProducts();
 		uoms = unitOfMeasureBean.getAll();

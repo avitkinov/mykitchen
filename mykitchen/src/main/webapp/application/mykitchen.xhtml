@@ -37,7 +37,7 @@
 									<h:selectOneMenu value="#{userproduct.product}">
 										<f:selectItems value="#{myKitchenManagedBean.products}"
 											var="product" itemLabel="#{product.name}"
-											itemValue="#{product}" />
+											itemValue="#{product}" converter="#{myKitchenManagedBean.productConverter}" />
 									</h:selectOneMenu>
 								</f:facet>
 							</p:cellEditor>
